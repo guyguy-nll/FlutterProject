@@ -15,47 +15,10 @@ import 'tabs_page.dart';
 //source:
 //suivi la video https://www.youtube.com/watch?v=aKgEEnVhU1I&t=61s
 //positionné les éléments: https://medium.flutterdevs.com/stack-and-positioned-widget-in-flutter-3d1a7b30b09a
+
 import 'package:flutter/material.dart';
-import 'pageInscription.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ConnectPage(),
-    );
-  }
-}
-
-class PageAccueil extends StatefulWidget {
-  const PageAccueil({super.key});
-
-  @override
-  State<PageAccueil> createState() => _PageAccueilState();
-}
-
-class _PageAccueilState extends State<PageAccueil> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}
-
-class ConnectPage extends StatefulWidget {
-  const ConnectPage({super.key});
-
-  @override
-  State<ConnectPage> createState() => _ConnectPageState();
-}
-
-class _ConnectPageState extends State<ConnectPage> {
+class pageInscription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +42,7 @@ class _ConnectPageState extends State<ConnectPage> {
           Container(
             alignment: Alignment.center,
             child: Text(
-              "Veuillez vous connecter ou \n créer un nouveau compte \n pour utiliser l’application",
+              "Page Inscription",
               style: TextStyle(
                 color: Colors.black,
                 fontFamily: "ProximaNova-Regular",
