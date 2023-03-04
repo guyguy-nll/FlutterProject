@@ -2,7 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:projet/jeuModele.dart';
 
-class searchPage extends StatelessWidget {
+class pageRecherche extends StatefulWidget {
+  const pageRecherche({Key? key}) : super(key: key);
+  @override
+  State<pageRecherche> createState() => _pageRecherche();
+}
+
+class _pageRecherche extends State<pageRecherche> {
   //initialisation d'une liste
   //a automatiser avec l'API Steam
   static List<jeuModel> list_jeu = [
@@ -11,7 +17,7 @@ class searchPage extends StatelessWidget {
     jeuModel("Fortnite", "Madame Salade", 17,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJmwo-EMVe3bpGcYJUHtUBDTSHkiMqwatA5Q&usqp=CAU"),
     jeuModel("Fifa 2023", "Madame Banane", 11,
-        "https://www.google.com/imgres?imgurl=https%3A%2F%2Fchocobonplan.com%2Fwp-content%2Fuploads%2F2022%2F07%2Ffifa-23-visuel-produit-ps4-def-300x300.png&imgrefurl=https%3A%2F%2Fchocobonplan.com%2Fbons-plans%2Fjeux-video-pas-cher%2Fjeux-ps4-pas-cher%2Ffifa-23-sur-ps4%2F&tbnid=DV9Pr7z6y9U03M&vet=12ahUKEwij8ey7qML9AhX4TaQEHUnQAxwQMygIegUIARCaAw..i&docid=HDtvojGeKf1q-M&w=300&h=300&q=fifa2023%20jeu%20ps4&ved=2ahUKEwij8ey7qML9AhX4TaQEHUnQAxwQMygIegUIARCaAw"),
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd5Ilu1hZiTWi_wwoPmbWIsqUN-2Q4-gq-lA&usqp=CAU"),
     jeuModel("Schrtoumpfs", "Monsieur Kart", 12,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuEWTQEQ5DzeLCzNzQyq-aT2_WXCJ7mMpXkg&usqp=CAU"),
     jeuModel("Mario", "Monsieur Andive", 19,
@@ -32,7 +38,14 @@ class searchPage extends StatelessWidget {
 
   void updateList(String saisie) {
     //ajuste la List en fonction de la recherche
+    setState(() {
+      affichage_list = list_jeu
+          .where((eLement) =>
+              eLement.jeu_titre!.toLowerCase().contains(saisie.toLowerCase()))
+          .toList();
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,6 +73,7 @@ class searchPage extends StatelessWidget {
               height: 20.0,
             ),
             TextField(
+              onChanged: (value) => updateList(value),
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Color.fromARGB(255, 29, 28, 28),
@@ -102,7 +116,9 @@ class searchPage extends StatelessWidget {
                             fontFamily: "ProximaNova-Regular",
                           )),
                       Text(
-                        '${affichage_list[index].jeu_prix!}',
+                        "prix: "
+                        '${affichage_list[index].jeu_prix!}'
+                        "€",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,
@@ -112,6 +128,29 @@ class searchPage extends StatelessWidget {
                       ),
                     ],
                   ),
+                  trailing: Container(
+                    width: 100.99,
+                    child: RawMaterialButton(
+                      fillColor: Color(0xFF636af6),
+                      elevation: 0.0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3.52)),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => pageRecherche()),
+                        );
+                      },
+                      child: Text("En savoir \n plus",
+                          style: TextStyle(
+                              color: Color(0xFFFFFFff),
+                              fontFamily: "ProximaNova-Regular",
+                              fontSize: 18.788733,
+                              fontWeight: FontWeight.w400)),
+                    ),
+                  ),
+                  leading: Image.network(affichage_list[index].jeu_poster_url!),
                 ),
               ),
             ),

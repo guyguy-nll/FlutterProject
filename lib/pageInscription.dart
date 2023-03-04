@@ -109,7 +109,7 @@ class pageInscription extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => searchPage()),
+                    MaterialPageRoute(builder: (context) => pageRecherche()),
                   );
                 },
                 child: Text("S'inscrire",
