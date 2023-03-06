@@ -1,18 +1,17 @@
 //source adapté: https://www.youtube.com/watch?v=jFHSkfjN96I
 import 'package:flutter/material.dart';
 import 'package:projet/jeuModele.dart';
-import 'package:projet/whishlist.dart';
 
-class pageRecherche extends StatefulWidget {
-  const pageRecherche({Key? key}) : super(key: key);
+class pageLike extends StatefulWidget {
+  const pageLike({Key? key}) : super(key: key);
   @override
-  State<pageRecherche> createState() => _pageRecherche();
+  State<pageLike> createState() => _pageLike();
 }
 
-class _pageRecherche extends State<pageRecherche> {
+class _pageLike extends State<pageLike> {
   //initialisation d'une liste
   //a automatiser avec l'API Steam
-  static List<jeuModel> list_jeu = [
+  static List<jeuModel> list_like = [
     jeuModel("GTA V", "paul bernard", 13,
         "https://media-rockstargames-com.akamaized.net/rockstargames-newsite/img/global/games/fob/1280/V.jpg"),
     jeuModel("Fortnite", "Madame Salade", 17,
@@ -35,12 +34,12 @@ class _pageRecherche extends State<pageRecherche> {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs6NMAvupGjYYMYT-FbR7OC8nwR6qhNbiZBA&usqp=CAU"),
   ];
   //liste que l'on affiche
-  List<jeuModel> affichage_list = List.from(list_jeu);
+  List<jeuModel> affichage_listLike = List.from(list_like);
 
-  void updateList(String saisie) {
+  void updateListlike(String saisie) {
     //ajuste la List en fonction de la recherche
     setState(() {
-      affichage_list = list_jeu
+      affichage_listLike = list_like
           .where((eLement) =>
               eLement.jeu_titre!.toLowerCase().contains(saisie.toLowerCase()))
           .toList();
@@ -55,7 +54,7 @@ class _pageRecherche extends State<pageRecherche> {
         backgroundColor: Colors.black,
         elevation: 0.0,
         title: Text(
-          "Recherche",
+          "Mes likes",
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -70,43 +69,23 @@ class _pageRecherche extends State<pageRecherche> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              onChanged: (value) => updateList(value),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Color.fromARGB(255, 29, 28, 28),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide.none,
-                ),
-                hintText: "Rechercher un jeu…",
-                hintStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.9172535,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "ProximaNova-Regular",
-                ),
-                suffixIcon: Icon(Icons.search),
-                suffixIconColor: Color(0xFF636af6),
-              ),
-            ),
             SizedBox(
               height: 20.0,
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: affichage_list.length,
+                itemCount: affichage_listLike.length,
                 itemBuilder: (context, index) => ListTile(
                   title: Column(
                     children: [
-                      Text(affichage_list[index].jeu_titre!,
+                      Text(affichage_listLike[index].jeu_titre!,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 15.265845,
                             fontWeight: FontWeight.w400,
                             fontFamily: "ProximaNova-Regular",
                           )),
-                      Text(affichage_list[index].jeu_editeur!,
+                      Text(affichage_listLike[index].jeu_editeur!,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 12,
@@ -115,7 +94,7 @@ class _pageRecherche extends State<pageRecherche> {
                           )),
                       Text(
                         "prix: "
-                        '${affichage_list[index].jeu_prix!}'
+                        '${affichage_listLike[index].jeu_prix!}'
                         "€",
                         style: TextStyle(
                           color: Colors.white,
@@ -136,8 +115,7 @@ class _pageRecherche extends State<pageRecherche> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => pageWishlist()),
+                          MaterialPageRoute(builder: (context) => pageLike()),
                         );
                       },
                       child: Text("En savoir \n plus",
@@ -148,7 +126,8 @@ class _pageRecherche extends State<pageRecherche> {
                               fontWeight: FontWeight.w400)),
                     ),
                   ),
-                  leading: Image.network(affichage_list[index].jeu_poster_url!),
+                  leading:
+                      Image.network(affichage_listLike[index].jeu_poster_url!),
                 ),
               ),
             ),
