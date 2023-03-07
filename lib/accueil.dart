@@ -58,7 +58,7 @@ class _ConnectPageState extends State<ConnectPage> {
             Container(
               alignment: Alignment.center,
               child: Text(
-                "Hey Connect!",
+                "Bienvenue!",
                 style: TextStyle(
                   color: Colors.black,
                   fontFamily: "GoogleSans-Bold",
