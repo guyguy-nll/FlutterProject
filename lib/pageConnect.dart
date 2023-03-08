@@ -23,20 +23,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class PageAccueil extends StatefulWidget {
-  const PageAccueil({super.key});
-
-  @override
-  State<PageAccueil> createState() => _PageAccueilState();
-}
-
-class _PageAccueilState extends State<PageAccueil> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}
-
 class ConnectPage extends StatefulWidget {
   const ConnectPage({super.key});
 
