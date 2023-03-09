@@ -83,6 +83,16 @@ class _pageDetail extends State<pageDetail> {
                   ),
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                    "Bacon ipsum dolor amet rump doner brisket \n corned beef tri-tip. Burgdoggen t-bone \n leberkas, tri-tip bacon beef ribs corned beef \n meatball andouille fatback alcatra strip ",
+                    style: TextStyle(
+                        color: Color(0xFFFFFFff),
+                        fontFamily: "ProximaNova-Regular",
+                        fontSize: 15.265845,
+                        fontWeight: FontWeight.w400)),
+              ),
             ],
           ),
           Padding(
