@@ -1,5 +1,6 @@
 //source adapté: https://www.youtube.com/watch?v=jFHSkfjN96I
 import 'package:flutter/material.dart';
+import 'package:projet/detailJeu.dart';
 import 'package:projet/jeuModele.dart';
 import 'package:projet/searchPage.dart';
 import 'package:projet/whishlist.dart';
@@ -228,7 +229,7 @@ class _pageAccueil extends State<pageAccueil> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => pageWishlist()),
+                        MaterialPageRoute(builder: (context) => pageDetail()),
                       );
                     },
                     child: Text("En savoir \n plus",
