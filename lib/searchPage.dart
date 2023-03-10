@@ -14,13 +14,15 @@ class pageRecherche extends StatefulWidget {
 class _pageRecherche extends State<pageRecherche> {
   //initialisation d'une liste
   //a automatiser avec l'API Steam
-   static List<JeuModel> list_jeu = [];
+   
 
   @override
   void initState() {
     super.initState();
     getJeux();
   }
+
+  static List<JeuModel> list_jeu = [];
 
   Future<void> getJeux() async {
     //final String apiKey = '543CB15FFA49C7D4EAF4E917BBCC12B9';

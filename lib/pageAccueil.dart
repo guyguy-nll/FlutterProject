@@ -4,6 +4,8 @@ import 'package:projet/detailJeu.dart';
 import 'package:projet/jeuModele.dart';
 import 'package:projet/searchPage.dart';
 import 'package:projet/whishlist.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class pageAccueil extends StatefulWidget {
   const pageAccueil({Key? key}) : super(key: key);
@@ -14,30 +16,53 @@ class pageAccueil extends StatefulWidget {
 class _pageAccueil extends State<pageAccueil> {
   //initialisation d'une liste
   //a automatiser avec l'API Steam
-  static List<jeuModel> list_meilleuresVentes = [
-    jeuModel("GTA V", "paul bernard", 13,
-        "https://media-rockstargames-com.akamaized.net/rockstargames-newsite/img/global/games/fob/1280/V.jpg"),
-    jeuModel("Fortnite", "Madame Salade", 17,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJmwo-EMVe3bpGcYJUHtUBDTSHkiMqwatA5Q&usqp=CAU"),
-    jeuModel("Fifa 2023", "Madame Banane", 11,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd5Ilu1hZiTWi_wwoPmbWIsqUN-2Q4-gq-lA&usqp=CAU"),
-    jeuModel("Schrtoumpfs", "Monsieur Kart", 12,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuEWTQEQ5DzeLCzNzQyq-aT2_WXCJ7mMpXkg&usqp=CAU"),
-    jeuModel("Mario", "Monsieur Andive", 19,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE4tG47ov5EpSQ7mN4p2qfnIvG5lrLQmVmog&usqp=CAU"),
-    jeuModel("Human Fall", "Martin", 11,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg8x3Gk679bDQfOlkAvjjCkBl8HHHNgLtJWQ&usqp=CAU"),
-    jeuModel("Supermash", "Bro", 7,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHuo-L8Sg8HR6OlZWRsS3fNK5Hcbujg2fLvw&usqp=CAU"),
-    jeuModel("Chim Party", "Patate", 12,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpFWnvUiLfVxet8bmy-a2tEymqRpn-NeYE_g&usqp=CAU"),
-    jeuModel("Tanaki Justice", "Bernard", 14,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9e-vY91PzDKNMrCKCNNpZbtIUYEhN31XRVA&usqp=CAU"),
-    jeuModel("Megaman", "Etoile", 18,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs6NMAvupGjYYMYT-FbR7OC8nwR6qhNbiZBA&usqp=CAU"),
-  ];
+  
   //liste que l'on affiche
-  List<jeuModel> affichage_listmeilleuresVentes =
+
+  @override
+  void initState() {
+    super.initState();
+    getJeux();
+  }
+
+  static List<JeuModel> list_meilleuresVentes = [];
+
+  Future<void> getJeux() async {
+    //final String apiKey = '543CB15FFA49C7D4EAF4E917BBCC12B9';
+    final List<String> appIds = ['570', '730', '1091500', '570940', '583950'];
+
+    for (var i = 0; i < appIds.length; i++) {
+      final String url =
+          'https://store.steampowered.com/api/appdetails/?appids=${appIds[i]}&key=543CB15FFA49C7D4EAF4E917BBCC12B9&json=1';
+
+      final response = await http.get(Uri.parse(url), headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+      });
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        final data = jsonResponse[appIds[i]]['data'];
+
+        final String jeu_titre = data['name'];
+        final String jeu_editeur = data['publishers'][0];
+        final String jeu_prix = data['type'];
+        final String jeu_poster_url = data['header_image'];
+
+        final JeuModel jeu =
+            JeuModel(jeu_titre: jeu_titre, jeu_editeur: jeu_editeur, jeu_prix: jeu_prix, jeu_poster_url: jeu_poster_url);
+        setState(() {
+          list_meilleuresVentes.add(jeu);
+        });
+      } else {
+        print('Erreur: ${response.statusCode}.');
+      }
+    }
+  }
+
+
+  List<JeuModel> affichage_listmeilleuresVentes =
       List.from(list_meilleuresVentes);
 
   void updatePage() {
