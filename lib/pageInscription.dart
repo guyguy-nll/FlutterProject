@@ -17,6 +17,7 @@ import 'tabs_page.dart';
 //positionné les éléments: https://medium.flutterdevs.com/stack-and-positioned-widget-in-flutter-3d1a7b30b09a
 
 import 'package:flutter/material.dart';
+import 'package:projet/pageAccueil.dart';
 import 'package:projet/searchPage.dart';
 
 class pageInscription extends StatelessWidget {
@@ -109,7 +110,7 @@ class pageInscription extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => pageRecherche()),
+                    MaterialPageRoute(builder: (context) => pageAccueil()),
                   );
                 },
                 child: Text("S'inscrire",
