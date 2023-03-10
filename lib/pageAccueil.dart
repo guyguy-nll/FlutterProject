@@ -16,18 +16,15 @@ class pageAccueil extends StatefulWidget {
 class _pageAccueil extends State<pageAccueil> {
   //initialisation d'une liste
   //a automatiser avec l'API Steam
-  
+  List<JeuModel> list_meilleuresVentes = [];
   //liste que l'on affiche
 
-  @override
-  void initState() {
-    super.initState();
-    getJeux();
-  }
-
-  static List<JeuModel> list_meilleuresVentes = [];
+  bool _isLoading = true;
+  //pour le chargement de l'API
 
   Future<void> getJeux() async {
+    print('Lecture API');
+    
     //final String apiKey = '543CB15FFA49C7D4EAF4E917BBCC12B9';
     final List<String> appIds = ['570', '730', '1091500', '570940', '583950'];
 
@@ -58,14 +55,22 @@ class _pageAccueil extends State<pageAccueil> {
       } else {
         print('Erreur: ${response.statusCode}.');
       }
+      setState(() {
+      _isLoading = false;
+    });
     }
   }
 
+ @override
+  void initState() {
+    print('Init');
+    super.initState();
+    getJeux();
+  }
 
-  List<JeuModel> affichage_listmeilleuresVentes =
-      List.from(list_meilleuresVentes);
 
   void updatePage() {
+    print('Update');
     //ajuste la List en fonction de la recherche
     setState(() {
       Navigator.push(
@@ -75,8 +80,16 @@ class _pageAccueil extends State<pageAccueil> {
     });
   }
 
+ 
+
   @override
   Widget build(BuildContext context) {
+    // affichage d'un widget de chargement tant que les données ne sont pas disponibles
+    if (_isLoading) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -182,7 +195,7 @@ class _pageAccueil extends State<pageAccueil> {
                   ],
                 ),
                 SizedBox(
-                  width: 110.0,
+                  width: 50.0,
                 ),
                 Image.network(
                   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmoyK7ptpmDEkYLrtIezYYRtKWUDsvS68gjg&usqp=CAU',
@@ -213,18 +226,18 @@ class _pageAccueil extends State<pageAccueil> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: affichage_listmeilleuresVentes.length,
+              itemCount: list_meilleuresVentes.length,
               itemBuilder: (context, index) => ListTile(
                 title: Column(
                   children: [
-                    Text(affichage_listmeilleuresVentes[index].jeu_titre!,
+                    Text(list_meilleuresVentes[index].jeu_titre!,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15.265845,
                           fontWeight: FontWeight.w400,
                           fontFamily: "ProximaNova-Regular",
                         )),
-                    Text(affichage_listmeilleuresVentes[index].jeu_editeur!,
+                    Text(list_meilleuresVentes[index].jeu_editeur!,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,
@@ -233,7 +246,7 @@ class _pageAccueil extends State<pageAccueil> {
                         )),
                     Text(
                       "prix: "
-                      '${affichage_listmeilleuresVentes[index].jeu_prix!}'
+                      '${list_meilleuresVentes[index].jeu_prix!}'
                       "€",
                       style: TextStyle(
                         color: Colors.white,
@@ -266,7 +279,7 @@ class _pageAccueil extends State<pageAccueil> {
                   ),
                 ),
                 leading: Image.network(
-                    affichage_listmeilleuresVentes[index].jeu_poster_url!),
+                    list_meilleuresVentes[index].jeu_poster_url!),
               ),
             ),
           ),
