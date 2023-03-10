@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:projet/jeuModele.dart';
 import 'package:projet/whishlist.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class pageRecherche extends StatefulWidget {
   const pageRecherche({Key? key}) : super(key: key);
@@ -12,6 +14,70 @@ class pageRecherche extends StatefulWidget {
 class _pageRecherche extends State<pageRecherche> {
   //initialisation d'une liste
   //a automatiser avec l'API Steam
+   static List<JeuModel> list_jeu = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getJeux();
+  }
+
+  Future<void> getJeux() async {
+    //final String apiKey = '543CB15FFA49C7D4EAF4E917BBCC12B9';
+    final List<String> appIds = ['570', '730', '1091500', '570940', '583950'];
+
+    for (var i = 0; i < appIds.length; i++) {
+      final String url =
+          'https://store.steampowered.com/api/appdetails/?appids=${appIds[i]}&key=543CB15FFA49C7D4EAF4E917BBCC12B9&json=1';
+
+      final response = await http.get(Uri.parse(url), headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+      });
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        final data = jsonResponse[appIds[i]]['data'];
+
+        final String jeu_titre = data['name'];
+        final String jeu_editeur = data['publishers'][0];
+        final String jeu_prix = data['type'];
+        final String jeu_poster_url = data['header_image'];
+
+        final JeuModel jeu =
+            JeuModel(jeu_titre: jeu_titre, jeu_editeur: jeu_editeur, jeu_prix: jeu_prix, jeu_poster_url: jeu_poster_url);
+        setState(() {
+          list_jeu.add(jeu);
+        });
+      } else {
+        print('Request failed with status: ${response.statusCode}.');
+      }
+    }
+  }
+  /*
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Liste des jeux'),
+      ),
+      body: ListView.builder(
+        itemCount: list_jeu.length,
+        itemBuilder: (BuildContext context, int index) {
+          final jeu = list_jeu[index];
+          return ListTile(
+            leading: Image.network(jeu.image),
+            title: Text(jeu.name),
+            subtitle: Text('${jeu.publisher} | ${jeu.price}'),
+          );
+        },
+      ),
+    );
+  }
+  */
+
+  /*
   static List<jeuModel> list_jeu = [
     jeuModel("GTA V", "paul bernard", 13,
         "https://media-rockstargames-com.akamaized.net/rockstargames-newsite/img/global/games/fob/1280/V.jpg"),
@@ -34,8 +100,9 @@ class _pageRecherche extends State<pageRecherche> {
     jeuModel("Megaman", "Etoile", 18,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs6NMAvupGjYYMYT-FbR7OC8nwR6qhNbiZBA&usqp=CAU"),
   ];
+  */
   //liste que l'on affiche
-  List<jeuModel> affichage_list = List.from(list_jeu);
+  List<JeuModel> affichage_list = List.from(list_jeu);
 
   void updateList(String saisie) {
     //ajuste la List en fonction de la recherche

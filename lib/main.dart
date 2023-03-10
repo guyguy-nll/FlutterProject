@@ -13,6 +13,8 @@ import 'package:projet/home.dart';
 import 'firebase_options.dart';
 import 'pageInscription.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -59,7 +59,7 @@ class pageInscription extends StatelessWidget {
               textAlign: TextAlign.center,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                hintText: "Nom d’utilisateur",
+                hintText: "Nommm d’utilisateur",
               ),
             ),
           ),

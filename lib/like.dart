@@ -11,30 +11,32 @@ class pageLike extends StatefulWidget {
 class _pageLike extends State<pageLike> {
   //initialisation d'une liste
   //a automatiser avec l'API Steam
-  static List<jeuModel> list_like = [
-    jeuModel("GTA V", "paul bernard", 13,
+  static List<JeuModel> list_like = [
+     /*
+    JeuModel("GTA V", "paul bernard", 13,
         "https://media-rockstargames-com.akamaized.net/rockstargames-newsite/img/global/games/fob/1280/V.jpg"),
-    jeuModel("Fortnite", "Madame Salade", 17,
+    JeuModel("Fortnite", "Madame Salade", 17,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJmwo-EMVe3bpGcYJUHtUBDTSHkiMqwatA5Q&usqp=CAU"),
-    jeuModel("Fifa 2023", "Madame Banane", 11,
+    JeuModel("Fifa 2023", "Madame Banane", 11,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd5Ilu1hZiTWi_wwoPmbWIsqUN-2Q4-gq-lA&usqp=CAU"),
-    jeuModel("Schrtoumpfs", "Monsieur Kart", 12,
+    JeuModel("Schrtoumpfs", "Monsieur Kart", 12,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuEWTQEQ5DzeLCzNzQyq-aT2_WXCJ7mMpXkg&usqp=CAU"),
-    jeuModel("Mario", "Monsieur Andive", 19,
+    JeuModel("Mario", "Monsieur Andive", 19,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE4tG47ov5EpSQ7mN4p2qfnIvG5lrLQmVmog&usqp=CAU"),
-    jeuModel("Human Fall", "Martin", 11,
+    JeuModel("Human Fall", "Martin", 11,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg8x3Gk679bDQfOlkAvjjCkBl8HHHNgLtJWQ&usqp=CAU"),
-    jeuModel("Supermash", "Bro", 7,
+    JeuModel("Supermash", "Bro", 7,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHuo-L8Sg8HR6OlZWRsS3fNK5Hcbujg2fLvw&usqp=CAU"),
-    jeuModel("Chim Party", "Patate", 12,
+    JeuModel("Chim Party", "Patate", 12,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpFWnvUiLfVxet8bmy-a2tEymqRpn-NeYE_g&usqp=CAU"),
-    jeuModel("Tanaki Justice", "Bernard", 14,
+    JeuModel("Tanaki Justice", "Bernard", 14,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9e-vY91PzDKNMrCKCNNpZbtIUYEhN31XRVA&usqp=CAU"),
-    jeuModel("Megaman", "Etoile", 18,
+    JeuModel("Megaman", "Etoile", 18,
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs6NMAvupGjYYMYT-FbR7OC8nwR6qhNbiZBA&usqp=CAU"),
+  */
   ];
   //liste que l'on affiche
-  List<jeuModel> affichage_listLike = List.from(list_like);
+  List<JeuModel> affichage_listLike = List.from(list_like);
 
   void updateListlike(String saisie) {
     //ajuste la List en fonction de la recherche
