@@ -115,7 +115,7 @@ class _pageAccueil extends State<pageAccueil> {
               onChanged: (value) => updatePage(),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Color.fromARGB(254, 29, 28, 28),
+                fillColor: Color.fromARGB(255, 29, 28, 28),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                   borderSide: BorderSide.none,
