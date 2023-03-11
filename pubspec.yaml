@@ -69,6 +69,11 @@ flutter:
     - assets/images/destinytransparent.png
     - assets/images/fondDetailjeu.jpg
     - assets/images/jeu.jpg
+    - assets/images/like.svg
+    - assets/images/like_full.svg
+    - assets/images/whishlist_full.svg
+    - assets/images/whishlist.svg
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
