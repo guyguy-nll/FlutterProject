@@ -1,14 +1,111 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:projet/jeuModele.dart';
 
 class pageDetail extends StatefulWidget {
-  const pageDetail({Key? key}) : super(key: key);
+  //const pageDetail({Key? key}) : super(key: key);
+  final int jeuId;
+  pageDetail({required this.jeuId});
+  
   @override
   State<pageDetail> createState() => _pageDetail();
 }
 
 class _pageDetail extends State<pageDetail> {
+  /*
+
+  late String _description = '';
+  late String _image1 = '';
+  late String _nom = '';
+  late String _editeur = '';
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.jeuId);
+    _fetchGameDetails();
+  }
+
+Future<void> _fetchGameDetails() async {
+    setState(() {
+      _isLoading = true;
+    });
+    final url =
+        'https://store.steampowered.com/api/appdetails?appids=${widget.jeuId}&key=543CB15FFA49C7D4EAF4E917BBCC12B9';
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      final description = data['short_description'];
+      //final nom = data['name'];
+      //final image1 = data['header_image'];
+      //final editeur = data['publishers'][0];
+      setState(() {
+        _description = description;
+        _nom = nom;
+       _image1 = image1;
+       _editeur = editeur;
+        _isLoading = false;
+      });
+      print(_nom);
+      print(_description);
+
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      throw Exception('Erreur requete');
+    }
+  }
+  */
+  
+  String _nom = '';
+  String _description = '';
+  String _image = '';
+  String _editeur = '';
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchGameDetails();
+  }
+
+  Future<void> _fetchGameDetails() async {
+    final url =
+        'https://store.steampowered.com/api/appdetails?appids=${widget.jeuId}&key=543CB15FFA49C7D4EAF4E917BBCC12B9';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      final data = jsonResponse['${widget.jeuId}']['data'];
+
+      final nom = data['name'] ?? '';
+      final description = data['short_description'] ?? '';
+      final image = data['header_image'] ?? '';
+      final editeur = data['publishers'] != null ? data['publishers'][0] ?? '' : '';
+
+      setState(() {
+        _description = description;
+        _nom = nom;
+        _image = image;
+        _editeur = editeur;
+        _isLoading = false;
+      });
+    } else {
+      throw Exception('Failed to load game details');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -33,7 +130,7 @@ class _pageDetail extends State<pageDetail> {
                 height: MediaQuery.of(context).size.height / 2,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/fondDetailjeu.jpg"),
+                    image: NetworkImage(_image),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -86,7 +183,7 @@ class _pageDetail extends State<pageDetail> {
               Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Text(
-                    "Bacon ipsum dolor amet rump doner brisket \n corned beef tri-tip. Burgdoggen t-bone \n leberkas, tri-tip bacon beef ribs corned beef \n meatball andouille fatback alcatra strip ",
+                    _description ?? "Aucune description disponible",
                     style: TextStyle(
                         color: Color(0xFFFFFFff),
                         fontFamily: "ProximaNova-Regular",
@@ -115,14 +212,14 @@ class _pageDetail extends State<pageDetail> {
                         SizedBox(
                           height: 30,
                         ),
-                        Text("nom jeu",
+                        Text(_nom,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 15.265845,
                               fontWeight: FontWeight.w400,
                               fontFamily: "ProximaNova-Regular",
                             )),
-                        Text("auteur",
+                        Text(_editeur,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 12,

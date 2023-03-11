@@ -1,4 +1,5 @@
 //source adapté: https://www.youtube.com/watch?v=jFHSkfjN96I
+// source API : https://www.youtube.com/watch?v=FlGTSb7_9jk 
 import 'package:flutter/material.dart';
 import 'package:projet/detailJeu.dart';
 import 'package:projet/jeuModele.dart';
@@ -46,9 +47,10 @@ class _pageAccueil extends State<pageAccueil> {
         final String jeu_editeur = data['publishers'][0];
         final String jeu_prix = data['type'];
         final String jeu_poster_url = data['header_image'];
+        final int jeu_id = data['steam_appid'];
 
         final JeuModel jeu =
-            JeuModel(jeu_titre: jeu_titre, jeu_editeur: jeu_editeur, jeu_prix: jeu_prix, jeu_poster_url: jeu_poster_url);
+            JeuModel(jeu_titre: jeu_titre, jeu_editeur: jeu_editeur, jeu_prix: jeu_prix, jeu_poster_url: jeu_poster_url, jeu_id: jeu_id);
         setState(() {
           list_meilleuresVentes.add(jeu);
         });
@@ -267,7 +269,7 @@ class _pageAccueil extends State<pageAccueil> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => pageDetail()),
+                        MaterialPageRoute(builder: (context) => pageDetail(jeuId: list_meilleuresVentes[index].jeu_id!)),
                       );
                     },
                     child: Text("En savoir \n plus",

@@ -10,8 +10,9 @@ class JeuModel {
   String? jeu_editeur;
   String? jeu_prix;
   String? jeu_poster_url;
+  int? jeu_id;
   JeuModel({
-      this.jeu_titre, this.jeu_editeur, this.jeu_prix, this.jeu_poster_url});
+      this.jeu_titre, this.jeu_editeur, this.jeu_prix, this.jeu_poster_url, this.jeu_id});
 }
 /*
 factory jeuModel.fromJson(dynamic json){
