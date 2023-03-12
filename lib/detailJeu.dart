@@ -26,9 +26,11 @@ class _pageDetail extends State<pageDetail> {
   String _image = '';
   String _editeur = '';
   bool _isLoading = true;
-  bool like = true;
+  bool like = false;
   bool wish = false;
-   User? _user;
+  User? _user;
+  late Map<String, dynamic> likes;
+
 
 final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
@@ -57,7 +59,9 @@ final _auth = FirebaseAuth.instance;
   }
 
   Future<void> _checkIfLiked() async {
-    final user = _auth.currentUser;
+    final auth = FirebaseAuth.instance;
+    final user = auth.currentUser;
+    
     if (user == null) {
       setState(() {
         like = false;
@@ -74,6 +78,7 @@ final _auth = FirebaseAuth.instance;
 
     setState(() {
       like = likes.containsKey(widget.jeuId);
+      like = true;
     });
   }
 
@@ -118,7 +123,7 @@ void _toggleLike() async {
     final userData = await docRef.get();
 
     final Map<String, dynamic> likes = userData.data()!['likes'] ?? {};
-
+/*
     if (likes.containsKey(widget.jeuId)) {
       likes.remove(widget.jeuId);
     } else {
@@ -133,6 +138,24 @@ void _toggleLike() async {
     setState(() {
       like = likes.containsKey(widget.jeuId);
     });
+    */
+    if (like) {
+      setState(() {
+        like = false;
+      });
+
+      docRef.update({
+        'likes.${widget.jeuId}': FieldValue.delete(),
+      });
+    } else {
+      setState(() {
+        like = true;
+      });
+
+      docRef.update({
+        'likes.${widget.jeuId}': true,
+      });
+    }
   }
 
 
