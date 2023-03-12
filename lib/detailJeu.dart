@@ -1,12 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:projet/jeuModele.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
 
 class pageDetail extends StatefulWidget {
-  //const pageDetail({Key? key}) : super(key: key);
   final int jeuId;
   pageDetail({required this.jeuId});
 
@@ -15,52 +18,8 @@ class pageDetail extends StatefulWidget {
 }
 
 class _pageDetail extends State<pageDetail> {
-  /*
 
-  late String _description = '';
-  late String _image1 = '';
-  late String _nom = '';
-  late String _editeur = '';
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    print(widget.jeuId);
-    _fetchGameDetails();
-  }
-
-Future<void> _fetchGameDetails() async {
-    setState(() {
-      _isLoading = true;
-    });
-    final url =
-        'https://store.steampowered.com/api/appdetails?appids=${widget.jeuId}&key=543CB15FFA49C7D4EAF4E917BBCC12B9';
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      final description = data['short_description'];
-      //final nom = data['name'];
-      //final image1 = data['header_image'];
-      //final editeur = data['publishers'][0];
-      setState(() {
-        _description = description;
-        _nom = nom;
-       _image1 = image1;
-       _editeur = editeur;
-        _isLoading = false;
-      });
-      print(_nom);
-      print(_description);
-
-    } else {
-      setState(() {
-        _isLoading = false;
-      });
-      throw Exception('Erreur requete');
-    }
-  }
-  */
+  late CollectionReference<Map<String, dynamic>> _userLikesRef;
 
   String _nom = '';
   String _description = '';
@@ -73,6 +32,7 @@ Future<void> _fetchGameDetails() async {
   @override
   void initState() {
     super.initState();
+    _isLoading = true;
     _fetchGameDetails();
   }
 
@@ -100,6 +60,24 @@ Future<void> _fetchGameDetails() async {
       });
     } else {
       throw Exception('Failed to load game details');
+    }
+  }
+
+   Future<void> _toggleLike() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return;
+    }
+    final userId = user.uid;
+    final userLikesRef =
+        FirebaseFirestore.instance.collection('Users').doc(userId).collection('likes');
+    setState(() {
+      like = !like;
+    });
+    if (like) {
+      await userLikesRef.doc(widget.jeuId as String?).set({});
+    } else {
+      await userLikesRef.doc(widget.jeuId as String?).delete();
     }
   }
 
@@ -131,7 +109,7 @@ Future<void> _fetchGameDetails() async {
                     'assets/images/like_full.svg',
                     width: 20.0,
                     height: 20.0,
-                    color: Colors.white,
+                    color: Colors.red,
                   )
                 : SvgPicture.asset(
                     'assets/images/like.svg',
@@ -139,11 +117,7 @@ Future<void> _fetchGameDetails() async {
                     height: 20.0,
                     color: Colors.white,
                   ),
-            onPressed: () {
-              setState(() {
-                like = !like;
-              });
-            },
+            onPressed: _toggleLike,
           ),
           SizedBox(width: 30.0),
           IconButton(
