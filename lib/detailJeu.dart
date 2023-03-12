@@ -26,15 +26,57 @@ class _pageDetail extends State<pageDetail> {
   String _image = '';
   String _editeur = '';
   bool _isLoading = true;
-  bool like = false;
+  bool like = true;
   bool wish = false;
+   User? _user;
+
+final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
     _isLoading = true;
     _fetchGameDetails();
+    _checkCurrentUser();
+    _checkIfLiked();
   }
+
+  void _checkCurrentUser() {
+    final auth = FirebaseAuth.instance;
+    final user = auth.currentUser;
+
+    if (user != null) {
+      setState(() {
+        _user = user;
+      });
+      print("User ${_user!.uid} is logged in.");
+    } else {
+      print("No user is logged in.");
+    }
+  }
+
+  Future<void> _checkIfLiked() async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      setState(() {
+        like = false;
+      });
+      return;
+    }
+
+    final userData = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user.uid)
+        .get();
+
+    final Map<String, dynamic> likes = userData.data()!['likes'] ?? {};
+
+    setState(() {
+      like = likes.containsKey(widget.jeuId);
+    });
+  }
+
 
   Future<void> _fetchGameDetails() async {
     final url =
@@ -63,23 +105,36 @@ class _pageDetail extends State<pageDetail> {
     }
   }
 
-   Future<void> _toggleLike() async {
-    final user = FirebaseAuth.instance.currentUser;
+void _toggleLike() async {
+    final auth = FirebaseAuth.instance;
+    final user = auth.currentUser;
     if (user == null) {
       return;
     }
-    final userId = user.uid;
-    final userLikesRef =
-        FirebaseFirestore.instance.collection('Users').doc(userId).collection('likes');
-    setState(() {
-      like = !like;
-    });
-    if (like) {
-      await userLikesRef.doc(widget.jeuId as String?).set({});
+
+    final docRef =
+        FirebaseFirestore.instance.collection('Users').doc(user.uid);
+
+    final userData = await docRef.get();
+
+    final Map<String, dynamic> likes = userData.data()!['likes'] ?? {};
+
+    if (likes.containsKey(widget.jeuId)) {
+      likes.remove(widget.jeuId);
     } else {
-      await userLikesRef.doc(widget.jeuId as String?).delete();
+      String id = widget.jeuId.toString();
+
+      print('je suis dans le else');
+  likes[id] = true;
     }
+
+    await docRef.update({'likes': likes});
+
+    setState(() {
+      like = likes.containsKey(widget.jeuId);
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
