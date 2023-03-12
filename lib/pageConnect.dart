@@ -4,6 +4,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:projet/pageAccueil.dart';
 import 'pageInscription.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
@@ -36,6 +37,7 @@ class _ConnectPageState extends State<ConnectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +48,7 @@ class _ConnectPageState extends State<ConnectPage> {
               child: Text(
                 "Bienvenue!",
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Color(0xFFFFFFff),
                   fontFamily: "GoogleSans-Bold",
                   fontSize: 30.53169,
                   fontWeight: FontWeight.w400,
@@ -59,7 +61,7 @@ class _ConnectPageState extends State<ConnectPage> {
               child: Text(
                 "Veuillez vous connecter ou \n créer un nouveau compte \n pour utiliser l’application",
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Color(0xFFFFFFff),
                   fontFamily: "ProximaNova-Regular",
                   fontSize: 15.265845,
                   fontWeight: FontWeight.w400,
@@ -71,10 +73,14 @@ class _ConnectPageState extends State<ConnectPage> {
               padding: const EdgeInsets.all(20.0),
               child: TextField(
                 controller: emailController,
+                style: TextStyle(color: Colors.white),
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
+                  fillColor: Colors.grey[800],
+                  filled: true,
                   hintText: "E-mail",
+                  hintStyle: TextStyle(color: Colors.white),
                 ),
               ),
             ),
@@ -83,9 +89,13 @@ class _ConnectPageState extends State<ConnectPage> {
               child: TextField(
                 controller: passwordController,
                 textAlign: TextAlign.center,
-                keyboardType: TextInputType.emailAddress,
+                style: TextStyle(color: Colors.white),
+                keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
+                  fillColor: Colors.grey[800],
+                  filled: true,
                   hintText: "Mot de passe",
+                  hintStyle: TextStyle(color: Colors.white),
                 ),
               ),
             ),
@@ -168,6 +178,10 @@ class _ConnectPageState extends State<ConnectPage> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => pageAccueil()),
+      );
     } on FirebaseAuthException catch (e) {
       print(e);
     }
