@@ -1,14 +1,12 @@
 //source adapté: https://www.youtube.com/watch?v=jFHSkfjN96I
-// source API : https://www.youtube.com/watch?v=FlGTSb7_9jk
+// source API : https://www.youtube.com/watch?v=FlGTSb7_9jk 
 import 'package:flutter/material.dart';
 import 'package:projet/detailJeu.dart';
 import 'package:projet/jeuModele.dart';
-import 'package:projet/like.dart';
 import 'package:projet/searchPage.dart';
 import 'package:projet/whishlist.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_svg/flutter_svg.dart';
 
 class pageAccueil extends StatefulWidget {
   const pageAccueil({Key? key}) : super(key: key);
@@ -27,7 +25,7 @@ class _pageAccueil extends State<pageAccueil> {
 
   Future<void> getJeux() async {
     print('Lecture API');
-
+    
     //final String apiKey = '543CB15FFA49C7D4EAF4E917BBCC12B9';
     final List<String> appIds = ['570', '730', '1091500', '570940', '583950'];
 
@@ -51,12 +49,8 @@ class _pageAccueil extends State<pageAccueil> {
         final String jeu_poster_url = data['header_image'];
         final int jeu_id = data['steam_appid'];
 
-        final JeuModel jeu = JeuModel(
-            jeu_titre: jeu_titre,
-            jeu_editeur: jeu_editeur,
-            jeu_prix: jeu_prix,
-            jeu_poster_url: jeu_poster_url,
-            jeu_id: jeu_id);
+        final JeuModel jeu =
+            JeuModel(jeu_titre: jeu_titre, jeu_editeur: jeu_editeur, jeu_prix: jeu_prix, jeu_poster_url: jeu_poster_url, jeu_id: jeu_id);
         setState(() {
           list_meilleuresVentes.add(jeu);
         });
@@ -64,17 +58,18 @@ class _pageAccueil extends State<pageAccueil> {
         print('Erreur: ${response.statusCode}.');
       }
       setState(() {
-        _isLoading = false;
-      });
+      _isLoading = false;
+    });
     }
   }
 
-  @override
+ @override
   void initState() {
     print('Init');
     super.initState();
     getJeux();
   }
+
 
   void updatePage() {
     print('Update');
@@ -86,6 +81,8 @@ class _pageAccueil extends State<pageAccueil> {
       );
     });
   }
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -109,42 +106,6 @@ class _pageAccueil extends State<pageAccueil> {
             fontFamily: "GoogleSans-Bold",
           ),
         ),
-        actions: [
-          IconButton(
-            icon: SvgPicture.asset(
-              'assets/images/like.svg',
-              width: 20.0,
-              height: 20.0,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => pageLike()),
-                );
-              });
-            },
-          ),
-          SizedBox(width: 30.0),
-          IconButton(
-            icon: SvgPicture.asset(
-              'assets/images/whishlist.svg',
-              width: 20.0,
-              height: 20.0,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => pageWishlist()),
-                );
-              });
-            },
-          ),
-          SizedBox(width: 10.0),
-        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -308,9 +269,7 @@ class _pageAccueil extends State<pageAccueil> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => pageDetail(
-                                jeuId: list_meilleuresVentes[index].jeu_id!)),
+                        MaterialPageRoute(builder: (context) => pageDetail(jeuId: list_meilleuresVentes[index].jeu_id!)),
                       );
                     },
                     child: Text("En savoir \n plus",
@@ -321,8 +280,8 @@ class _pageAccueil extends State<pageAccueil> {
                             fontWeight: FontWeight.w400)),
                   ),
                 ),
-                leading:
-                    Image.network(list_meilleuresVentes[index].jeu_poster_url!),
+                leading: Image.network(
+                    list_meilleuresVentes[index].jeu_poster_url!),
               ),
             ),
           ),

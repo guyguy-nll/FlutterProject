@@ -3,13 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:projet/jeuModele.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class pageDetail extends StatefulWidget {
   //const pageDetail({Key? key}) : super(key: key);
   final int jeuId;
   pageDetail({required this.jeuId});
-
+  
   @override
   State<pageDetail> createState() => _pageDetail();
 }
@@ -61,14 +60,12 @@ Future<void> _fetchGameDetails() async {
     }
   }
   */
-
+  
   String _nom = '';
   String _description = '';
   String _image = '';
   String _editeur = '';
   bool _isLoading = true;
-  bool like = false;
-  bool wish = false;
 
   @override
   void initState() {
@@ -88,8 +85,7 @@ Future<void> _fetchGameDetails() async {
       final nom = data['name'] ?? '';
       final description = data['short_description'] ?? '';
       final image = data['header_image'] ?? '';
-      final editeur =
-          data['publishers'] != null ? data['publishers'][0] ?? '' : '';
+      final editeur = data['publishers'] != null ? data['publishers'][0] ?? '' : '';
 
       setState(() {
         _description = description;
@@ -124,50 +120,6 @@ Future<void> _fetchGameDetails() async {
             fontFamily: "GoogleSans-Bold",
           ),
         ),
-        actions: [
-          IconButton(
-            icon: like
-                ? SvgPicture.asset(
-                    'assets/images/like_full.svg',
-                    width: 20.0,
-                    height: 20.0,
-                    color: Colors.white,
-                  )
-                : SvgPicture.asset(
-                    'assets/images/like.svg',
-                    width: 20.0,
-                    height: 20.0,
-                    color: Colors.white,
-                  ),
-            onPressed: () {
-              setState(() {
-                like = !like;
-              });
-            },
-          ),
-          SizedBox(width: 30.0),
-          IconButton(
-            icon: wish
-                ? SvgPicture.asset(
-                    'assets/images/whishlist_full.svg',
-                    width: 20.0,
-                    height: 20.0,
-                    color: Colors.white,
-                  )
-                : SvgPicture.asset(
-                    'assets/images/whishlist.svg',
-                    width: 20.0,
-                    height: 20.0,
-                    color: Colors.white,
-                  ),
-            onPressed: () {
-              setState(() {
-                wish = !wish;
-              });
-            },
-          ),
-          SizedBox(width: 10.0),
-        ],
       ),
       body: Stack(
         children: [
@@ -230,7 +182,8 @@ Future<void> _fetchGameDetails() async {
               ),
               Padding(
                 padding: EdgeInsets.all(16.0),
-                child: Text(_description ?? "Aucune description disponible",
+                child: Text(
+                    _description ?? "Aucune description disponible",
                     style: TextStyle(
                         color: Color(0xFFFFFFff),
                         fontFamily: "ProximaNova-Regular",
