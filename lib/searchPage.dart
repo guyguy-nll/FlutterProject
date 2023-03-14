@@ -206,7 +206,7 @@ class _pageRecherche extends State<pageRecherche> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => pageWishlist()),
+                              builder: (context) => pageWish()),
                         );
                       },
                       child: Text("En savoir \n plus",

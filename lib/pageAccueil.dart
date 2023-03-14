@@ -138,7 +138,7 @@ class _pageAccueil extends State<pageAccueil> {
               setState(() {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => pageWishlist()),
+                  MaterialPageRoute(builder: (context) => pageWish()),
                 );
               });
             },
