@@ -33,7 +33,7 @@ class _pageDetail extends State<pageDetail> {
 
 
 final _auth = FirebaseAuth.instance;
-  final _firestore = FirebaseFirestore.instance;
+final _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -52,18 +52,19 @@ final _auth = FirebaseAuth.instance;
       setState(() {
         _user = user;
       });
-      print("User ${_user!.uid} is logged in.");
+      print("Utilisateur ${_user!.uid} est connecté");
     } else {
-      print("No user is logged in.");
+      print("Pas d'utilisateur connecté");
     }
   }
-
+/*
   Future<void> _checkIfLiked() async {
     final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
     
     if (user == null) {
       setState(() {
+        print('L utilisateur n est pas connecté');
         like = false;
       });
       return;
@@ -77,11 +78,31 @@ final _auth = FirebaseAuth.instance;
     final Map<String, dynamic> likes = userData.data()!['likes'] ?? {};
 
     setState(() {
+      print('le like est true');
       like = likes.containsKey(widget.jeuId);
       like = true;
     });
   }
+*/
 
+void _checkIfLiked() async {
+  final auth = FirebaseAuth.instance;
+    final user = auth.currentUser;
+  if (user != null) {
+    DocumentSnapshot<Map<String, dynamic>> userData =
+        await FirebaseFirestore.instance
+            .collection('Users')
+            .doc(user.uid)
+            .get();
+    if (userData.exists) {
+      Map<String, dynamic> likes =
+          userData.data()!['likes'] ?? {};
+      setState(() {
+        like = likes.containsKey(widget.jeuId.toString());
+      });
+    }
+  }
+}
 
   Future<void> _fetchGameDetails() async {
     final url =
@@ -106,7 +127,7 @@ final _auth = FirebaseAuth.instance;
         _isLoading = false;
       });
     } else {
-      throw Exception('Failed to load game details');
+      throw Exception('Impossible de charger le jeux');
     }
   }
 
@@ -141,6 +162,7 @@ void _toggleLike() async {
     */
     if (like) {
       setState(() {
+        print("le jeu est deja liké on supprime le like");
         like = false;
       });
 
@@ -149,6 +171,7 @@ void _toggleLike() async {
       });
     } else {
       setState(() {
+        print("le jeu n est pas liké on l ajoute");
         like = true;
       });
 
@@ -187,7 +210,7 @@ void _toggleLike() async {
                     'assets/images/like_full.svg',
                     width: 20.0,
                     height: 20.0,
-                    color: Colors.red,
+                    color: Colors.blue,
                   )
                 : SvgPicture.asset(
                     'assets/images/like.svg',
