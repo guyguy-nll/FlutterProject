@@ -1,17 +1,6 @@
 // Copyright 2017 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-/*
-import 'dart:async';
-
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-
-import 'firebase_options.dart';
-import 'tabs_page.dart';
-*/
 //source:
 //suivi la video https://www.youtube.com/watch?v=aKgEEnVhU1I&t=61s
 //positionné les éléments: https://medium.flutterdevs.com/stack-and-positioned-widget-in-flutter-3d1a7b30b09a
@@ -21,6 +10,7 @@ import 'tabs_page.dart';
 //pour effectuer l'inscription dans firebase:
 //https://www.freecodespot.com/blog/flutter-login-and-registration-using-firebase/
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/pageAccueil.dart';
@@ -188,9 +178,17 @@ class _pageInscription extends State<pageInscription> {
       return;
     }
     try {
-      UserCredential user = await FirebaseAuth.instance
+      UserCredential result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: mailControl.text.trim(), password: mdpControl.text.trim());
+               // Créer le document de l'utilisateur dans Firestore
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(result.user?.uid)
+          .set({
+        'likes': <String, String>{},
+        'wishlist': <String, String>{},
+      });
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => pageAccueil()),

@@ -113,7 +113,7 @@ class _pageWish extends State<pageWish> {
         backgroundColor: Colors.black,
         elevation: 0.0,
         title: Text(
-          "Mes likes",
+          "Ma Wishlist",
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,
