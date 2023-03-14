@@ -19,7 +19,7 @@ class pageDetail extends StatefulWidget {
 
 class _pageDetail extends State<pageDetail> {
 
-  late CollectionReference<Map<String, dynamic>> _userLikesRef;
+  //late CollectionReference<Map<String, dynamic>> _userLikesRef;
 
   String _nom = '';
   String _description = '';
@@ -42,6 +42,7 @@ final _firestore = FirebaseFirestore.instance;
     _fetchGameDetails();
     _checkCurrentUser();
     _checkIfLiked();
+    _checkIfWished();
   }
 
   void _checkCurrentUser() {
@@ -57,33 +58,7 @@ final _firestore = FirebaseFirestore.instance;
       print("Pas d'utilisateur connecté");
     }
   }
-/*
-  Future<void> _checkIfLiked() async {
-    final auth = FirebaseAuth.instance;
-    final user = auth.currentUser;
-    
-    if (user == null) {
-      setState(() {
-        print('L utilisateur n est pas connecté');
-        like = false;
-      });
-      return;
-    }
 
-    final userData = await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(user.uid)
-        .get();
-
-    final Map<String, dynamic> likes = userData.data()!['likes'] ?? {};
-
-    setState(() {
-      print('le like est true');
-      like = likes.containsKey(widget.jeuId);
-      like = true;
-    });
-  }
-*/
 
 void _checkIfLiked() async {
   final auth = FirebaseAuth.instance;
@@ -99,6 +74,25 @@ void _checkIfLiked() async {
           userData.data()!['likes'] ?? {};
       setState(() {
         like = likes.containsKey(widget.jeuId.toString());
+      });
+    }
+  }
+}
+
+void _checkIfWished() async {
+  final auth = FirebaseAuth.instance;
+    final user = auth.currentUser;
+  if (user != null) {
+    DocumentSnapshot<Map<String, dynamic>> userData =
+        await FirebaseFirestore.instance
+            .collection('Users')
+            .doc(user.uid)
+            .get();
+    if (userData.exists) {
+      Map<String, dynamic> wishlist =
+          userData.data()!['wishlist'] ?? {};
+      setState(() {
+        wish = wishlist.containsKey(widget.jeuId.toString());
       });
     }
   }
@@ -144,22 +138,7 @@ void _toggleLike() async {
     final userData = await docRef.get();
 
     final Map<String, dynamic> likes = userData.data()!['likes'] ?? {};
-/*
-    if (likes.containsKey(widget.jeuId)) {
-      likes.remove(widget.jeuId);
-    } else {
-      String id = widget.jeuId.toString();
 
-      print('je suis dans le else');
-  likes[id] = true;
-    }
-
-    await docRef.update({'likes': likes});
-
-    setState(() {
-      like = likes.containsKey(widget.jeuId);
-    });
-    */
     if (like) {
       setState(() {
         print("le jeu est deja liké on supprime le like");
@@ -181,6 +160,40 @@ void _toggleLike() async {
     }
   }
 
+void _toggleWish() async {
+    final auth = FirebaseAuth.instance;
+    final user = auth.currentUser;
+    if (user == null) {
+      return;
+    }
+
+    final docRef =
+        FirebaseFirestore.instance.collection('Users').doc(user.uid);
+
+    final userData = await docRef.get();
+
+    final Map<String, dynamic> wishlist = userData.data()!['wishlist'] ?? {};
+
+    if (wish) {
+      setState(() {
+        print("le jeu est deja wish on supprime le wish");
+        wish = false;
+      });
+
+      docRef.update({
+        'wishlist.${widget.jeuId}': FieldValue.delete(),
+      });
+    } else {
+      setState(() {
+        print("le jeu n est pas wish on l ajoute");
+        wish = true;
+      });
+
+      docRef.update({
+        'wishlist.${widget.jeuId}': true,
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +223,7 @@ void _toggleLike() async {
                     'assets/images/like_full.svg',
                     width: 20.0,
                     height: 20.0,
-                    color: Colors.blue,
+                    color: Colors.red,
                   )
                 : SvgPicture.asset(
                     'assets/images/like.svg',
@@ -227,7 +240,7 @@ void _toggleLike() async {
                     'assets/images/whishlist_full.svg',
                     width: 20.0,
                     height: 20.0,
-                    color: Colors.white,
+                    color: Colors.yellow,
                   )
                 : SvgPicture.asset(
                     'assets/images/whishlist.svg',
@@ -235,11 +248,7 @@ void _toggleLike() async {
                     height: 20.0,
                     color: Colors.white,
                   ),
-            onPressed: () {
-              setState(() {
-                wish = !wish;
-              });
-            },
+            onPressed: _toggleWish,
           ),
           SizedBox(width: 10.0),
         ],
