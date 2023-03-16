@@ -181,7 +181,7 @@ class _pageInscription extends State<pageInscription> {
       UserCredential result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: mailControl.text.trim(), password: mdpControl.text.trim());
-               // Créer le document de l'utilisateur dans Firestore
+      // Créer le document de l'utilisateur dans Firestore
       await FirebaseFirestore.instance
           .collection('Users')
           .doc(result.user?.uid)
@@ -194,11 +194,7 @@ class _pageInscription extends State<pageInscription> {
         MaterialPageRoute(builder: (context) => pageAccueil()),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Erreur: $e'),
-        ),
-      );
+      print(e);
     }
     setState(() {
       charge = false;
