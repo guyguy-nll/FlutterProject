@@ -57,6 +57,9 @@ class _pageInscription extends State<pageInscription> {
                     textAlign: TextAlign.center,
                   ),
                 ),
+                SizedBox(
+                  height: 15,
+                ),
                 Container(
                   alignment: Alignment.center,
                   child: Text(
@@ -69,6 +72,9 @@ class _pageInscription extends State<pageInscription> {
                     ),
                     textAlign: TextAlign.center,
                   ),
+                ),
+                SizedBox(
+                  height: 70,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),

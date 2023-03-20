@@ -8,9 +8,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:projet/like_vide.dart';
 import 'package:projet/pageAccueil.dart';
 import 'package:projet/pageConnect.dart';
 import 'package:projet/home.dart';
+import 'package:projet/wish_vide.dart';
 import 'firebase_options.dart';
 import 'pageInscription.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
@@ -46,7 +48,7 @@ class Acc extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return pageAccueil();
+              return ConnectPage();
             } else {
               return ConnectPage();
             }

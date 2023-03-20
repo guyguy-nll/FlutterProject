@@ -75,6 +75,8 @@ flutter:
     - assets/images/like_full.svg
     - assets/images/whishlist_full.svg
     - assets/images/whishlist.svg
+    - assets/images/empty_likes.svg
+    - assets/images/empty_whishlist.svg
 
   #   - images/a_dot_ham.jpeg
 

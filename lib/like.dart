@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/detailJeu.dart';
 import 'package:projet/jeuModele.dart';
+import 'package:projet/like_vide.dart';
 import 'package:projet/searchPage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -21,6 +22,7 @@ class _pageLike extends State<pageLike> {
   List<JeuModel> list_meilleuresVentes = [];
   //liste que l'on affiche
 
+  bool vide = false;
   bool _isLoading = true;
   //pour le chargement de l'API
 
@@ -30,19 +32,22 @@ class _pageLike extends State<pageLike> {
     //final String apiKey = '543CB15FFA49C7D4EAF4E917BBCC12B9';
     final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
-  final userData = await FirebaseFirestore.instance.collection('Users').doc(user!.uid).get();
-  final Map<String, dynamic> likes = userData.data()!['likes'] ?? {};
-  List<String> likedGames = [];
+    final userData = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uid)
+        .get();
+    final Map<String, dynamic> likes = userData.data()!['likes'] ?? {};
+    List<String> likedGames = [];
 
-  likes.forEach((key, value) {
-    likedGames.add(key);
-  });
+    likes.forEach((key, value) {
+      likedGames.add(key);
+    });
 
     //final List<String> appIds = ['570', '730', '1091500', '570940', '583950'];
     final List<String> appIds = likedGames;
     appIds.forEach((element) {
-  print(element);
-});
+      print(element);
+    });
 
     for (var i = 0; i < appIds.length; i++) {
       final String url =
@@ -79,6 +84,11 @@ class _pageLike extends State<pageLike> {
       setState(() {
         _isLoading = false;
       });
+      if (list_meilleuresVentes.isEmpty) {
+        setState(() {
+          vide = true;
+        });
+      }
     }
   }
 
@@ -87,6 +97,15 @@ class _pageLike extends State<pageLike> {
     print('Init');
     super.initState();
     getJeux();
+    if (vide == true) {
+      setState(() {
+        _isLoading = false;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PageLikevide()),
+        );
+      });
+    }
   }
 
   void updatePage() {
@@ -107,6 +126,7 @@ class _pageLike extends State<pageLike> {
         child: CircularProgressIndicator(),
       );
     }
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -129,8 +149,8 @@ class _pageLike extends State<pageLike> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-            height: 10.0,
-          ),
+              height: 10.0,
+            ),
             Expanded(
               child: ListView.builder(
                 itemCount: list_meilleuresVentes.length,
@@ -139,8 +159,8 @@ class _pageLike extends State<pageLike> {
                     children: [
                       Positioned.fill(
                           child: ColoredBox(
-                            color: Colors.black,
-                          )),
+                        color: Colors.black,
+                      )),
                       Row(
                         children: [
                           Image.network(
@@ -163,7 +183,6 @@ class _pageLike extends State<pageLike> {
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "ProximaNova-Regular",
                                     )),
-
                                 Text(list_meilleuresVentes[index].jeu_editeur!,
                                     style: TextStyle(
                                       color: Colors.white,
@@ -184,9 +203,10 @@ class _pageLike extends State<pageLike> {
                                         fontFamily: "ProximaNova-Regular",
                                         decoration: TextDecoration.underline,
                                       ),
-                                      children:[
+                                      children: [
                                         TextSpan(
-                                          text: '${list_meilleuresVentes[index].jeu_prix!}'
+                                          text:
+                                              '${list_meilleuresVentes[index].jeu_prix!}'
                                               "€",
                                           style: TextStyle(
                                             color: Colors.white,
@@ -195,8 +215,8 @@ class _pageLike extends State<pageLike> {
                                             fontFamily: "ProximaNova-Regular",
                                             decoration: TextDecoration.none,
                                           ),
-                                        ),]
-                                  ),
+                                        ),
+                                      ]),
                                 ),
                               ],
                             ),
@@ -234,9 +254,9 @@ class _pageLike extends State<pageLike> {
                                             fontFamily: "ProximaNova-Regular",
                                             fontSize: 18.788733,
                                             fontWeight: FontWeight.w400)),
-
-                                  ],),),
-
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ],
