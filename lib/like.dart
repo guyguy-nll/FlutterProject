@@ -48,7 +48,7 @@ class _pageLike extends State<pageLike> {
     appIds.forEach((element) {
       print(element);
     });
-
+  if(!appIds.isEmpty){
     for (var i = 0; i < appIds.length; i++) {
       final String url =
           'https://store.steampowered.com/api/appdetails/?appids=${appIds[i]}&key=543CB15FFA49C7D4EAF4E917BBCC12B9&json=1';
@@ -78,19 +78,29 @@ class _pageLike extends State<pageLike> {
         setState(() {
           list_meilleuresVentes.add(jeu);
         });
+        if (list_meilleuresVentes.isEmpty) {
+          setState(() {
+            vide = true;
+            print(vide);
+          });
+        }
       } else {
         print('Erreur: ${response.statusCode}.');
       }
       setState(() {
         _isLoading = false;
       });
-      if (list_meilleuresVentes.isEmpty) {
+      
+    }
+  }
+  else {
         setState(() {
+          _isLoading = false;
           vide = true;
         });
       }
-    }
   }
+  
 
   @override
   void initState() {
@@ -125,6 +135,50 @@ class _pageLike extends State<pageLike> {
       return Center(
         child: CircularProgressIndicator(),
       );
+    }
+    if (vide) {
+      return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0.0,
+        title: Text(
+          "Mes likes",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w400,
+            fontFamily: "GoogleSans-Bold",
+          ),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SvgPicture.asset(
+              'assets/images/empty_likes.svg',
+              width: 94.0,
+              height: 94.0,
+              color: Colors.white,
+            ),
+            SizedBox(
+              height: 60,
+            ),
+            Text(
+              "Vous n'avez pas liké de contenu.\n cliquez sur le coeur pour en ajouter",
+              style: TextStyle(
+                color: Color(0xFFFFFFff),
+                fontFamily: "ProximaNova-Regular",
+                fontSize: 15.265845,
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
     }
 
     return Scaffold(

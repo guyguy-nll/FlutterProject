@@ -35,7 +35,7 @@ class _pageInscription extends State<pageInscription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff1A2025),
       body: charge
           ? Center(
               child: CircularProgressIndicator(),
@@ -84,7 +84,7 @@ class _pageInscription extends State<pageInscription> {
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      fillColor: Colors.grey[800],
+                      fillColor: Color(0xff1E262B),
                       filled: true,
                       hintText: "Nom d’utilisateur",
                       hintStyle: TextStyle(color: Colors.white),
@@ -99,7 +99,7 @@ class _pageInscription extends State<pageInscription> {
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      fillColor: Colors.grey[800],
+                      fillColor: Color(0xff1E262B),
                       filled: true,
                       hintText: "E-mail",
                       hintStyle: TextStyle(color: Colors.white),
@@ -114,7 +114,7 @@ class _pageInscription extends State<pageInscription> {
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
-                      fillColor: Colors.grey[800],
+                      fillColor: Color(0xff1E262B),
                       filled: true,
                       hintText: "Mot de passe",
                       hintStyle: TextStyle(color: Colors.white),
@@ -135,7 +135,7 @@ class _pageInscription extends State<pageInscription> {
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
-                      fillColor: Colors.grey[800],
+                      fillColor: Color(0xff1E262B),
                       filled: true,
                       hintText: "Vérification de mot de passe",
                       hintStyle: TextStyle(color: Colors.white),
