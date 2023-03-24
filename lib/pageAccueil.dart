@@ -20,6 +20,7 @@ class _pageAccueil extends State<pageAccueil> {
   //initialisation d'une liste
   //a automatiser avec l'API Steam
   List<JeuModel> list_meilleuresVentes = [];
+  
   //liste que l'on affiche
 
   bool _isLoading = true;
@@ -27,9 +28,9 @@ class _pageAccueil extends State<pageAccueil> {
 
   Future<void> getJeux() async {
     print('Lecture API');
+    List<String> appIds = await loadGames();
 
     //final String apiKey = '543CB15FFA49C7D4EAF4E917BBCC12B9';
-    final List<String> appIds = ['570', '730', '1091500', '570940', '583950'];
 
     for (var i = 0; i < appIds.length; i++) {
       final String url =
@@ -69,10 +70,37 @@ class _pageAccueil extends State<pageAccueil> {
     }
   }
 
+  Future<List<String>> loadGames() async {
+  final response = await http.get(
+    Uri.parse(
+        'https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/?'),
+  );
+
+  if (response.statusCode == 200) {
+    try {
+      Map json = jsonDecode(response.body);
+      List<dynamic> ranks = json['response']['ranks'] as List<dynamic>;
+      List<String> appIds = [];
+      for (var i = 0; i < ranks.length; i++) {
+        Map rank = ranks[i];
+        appIds.add(rank['appid'].toString());
+      }
+      return appIds;
+    } catch (err) {
+      print(err);
+      return [];
+    }
+  } else {
+    throw Exception(
+        'Failed to load most played games: ${response.statusCode}');
+  }
+}
+
   @override
   void initState() {
     print('Init');
     super.initState();
+    loadGames();
     getJeux();
   }
 
