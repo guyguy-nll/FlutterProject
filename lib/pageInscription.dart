@@ -111,23 +111,33 @@ class _pageInscription extends State<pageInscription> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-                  child: Stack(
-                    alignment: Alignment.centerRight,
-                    children: [
-                      TextFormField(
-                        controller: mdpControl,
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,
-                        keyboardType: TextInputType.visiblePassword,
-                        decoration: InputDecoration(
-                          fillColor: Color(0xff1E262B),
-                          filled: true,
-                          hintText: "Mot de passe",
-                          hintStyle: TextStyle(color: Colors.white),
+                  child: Container(
+                    decoration: testmdp
+                        ? BoxDecoration(
+                            border: Border.all(
+                              width: 1.0,
+                              color: Colors.red,
+                            ),
+                          )
+                        : null,
+                    child: Stack(
+                      alignment: Alignment.centerRight,
+                      children: [
+                        TextFormField(
+                          controller: mdpControl,
+                          style: TextStyle(color: Colors.white),
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.visiblePassword,
+                          decoration: InputDecoration(
+                            fillColor: Color(0xff1E262B),
+                            filled: true,
+                            hintText: "Mot de passe",
+                            hintStyle: TextStyle(color: Colors.white),
+                          ),
                         ),
-                      ),
-                      if (testmdp) Icon(Icons.warning, color: Colors.red),
-                    ],
+                        if (testmdp) Icon(Icons.warning, color: Colors.red),
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
