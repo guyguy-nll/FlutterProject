@@ -7,8 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
 class pageDetail extends StatefulWidget {
   final int jeuId;
   pageDetail({required this.jeuId});
@@ -18,7 +16,6 @@ class pageDetail extends StatefulWidget {
 }
 
 class _pageDetail extends State<pageDetail> {
-
   //late CollectionReference<Map<String, dynamic>> _userLikesRef;
 
   String _nom = '';
@@ -31,9 +28,8 @@ class _pageDetail extends State<pageDetail> {
   User? _user;
   late Map<String, dynamic> likes;
 
-
-final _auth = FirebaseAuth.instance;
-final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -59,44 +55,41 @@ final _firestore = FirebaseFirestore.instance;
     }
   }
 
-
-void _checkIfLiked() async {
-  final auth = FirebaseAuth.instance;
+  void _checkIfLiked() async {
+    final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
-  if (user != null) {
-    DocumentSnapshot<Map<String, dynamic>> userData =
-        await FirebaseFirestore.instance
-            .collection('Users')
-            .doc(user.uid)
-            .get();
-    if (userData.exists) {
-      Map<String, dynamic> likes =
-          userData.data()!['likes'] ?? {};
-      setState(() {
-        like = likes.containsKey(widget.jeuId.toString());
-      });
+    if (user != null) {
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
+          .instance
+          .collection('Users')
+          .doc(user.uid)
+          .get();
+      if (userData.exists) {
+        Map<String, dynamic> likes = userData.data()!['likes'] ?? {};
+        setState(() {
+          like = likes.containsKey(widget.jeuId.toString());
+        });
+      }
     }
   }
-}
 
-void _checkIfWished() async {
-  final auth = FirebaseAuth.instance;
+  void _checkIfWished() async {
+    final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
-  if (user != null) {
-    DocumentSnapshot<Map<String, dynamic>> userData =
-        await FirebaseFirestore.instance
-            .collection('Users')
-            .doc(user.uid)
-            .get();
-    if (userData.exists) {
-      Map<String, dynamic> wishlist =
-          userData.data()!['wishlist'] ?? {};
-      setState(() {
-        wish = wishlist.containsKey(widget.jeuId.toString());
-      });
+    if (user != null) {
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
+          .instance
+          .collection('Users')
+          .doc(user.uid)
+          .get();
+      if (userData.exists) {
+        Map<String, dynamic> wishlist = userData.data()!['wishlist'] ?? {};
+        setState(() {
+          wish = wishlist.containsKey(widget.jeuId.toString());
+        });
+      }
     }
   }
-}
 
   Future<void> _fetchGameDetails() async {
     final url =
@@ -125,15 +118,14 @@ void _checkIfWished() async {
     }
   }
 
-void _toggleLike() async {
+  void _toggleLike() async {
     final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
     if (user == null) {
       return;
     }
 
-    final docRef =
-        FirebaseFirestore.instance.collection('Users').doc(user.uid);
+    final docRef = FirebaseFirestore.instance.collection('Users').doc(user.uid);
 
     final userData = await docRef.get();
 
@@ -160,15 +152,14 @@ void _toggleLike() async {
     }
   }
 
-void _toggleWish() async {
+  void _toggleWish() async {
     final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
     if (user == null) {
       return;
     }
 
-    final docRef =
-        FirebaseFirestore.instance.collection('Users').doc(user.uid);
+    final docRef = FirebaseFirestore.instance.collection('Users').doc(user.uid);
 
     final userData = await docRef.get();
 
@@ -259,7 +250,7 @@ void _toggleWish() async {
             children: [
               Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height / 2,
+                height: (MediaQuery.of(context).size.height / 2) - 40,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(_image),
@@ -268,7 +259,7 @@ void _toggleWish() async {
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 50,
               ),
               Padding(
                 padding: EdgeInsets.all(16.0),
@@ -336,28 +327,38 @@ void _toggleWish() async {
                     SizedBox(
                       width: 20,
                     ),
-                    Image.asset("assets/images/jeu.jpg",
-                        width: 79.85, height: 79.85),
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Text(_nom,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.265845,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "ProximaNova-Regular",
-                            )),
-                        Text(_editeur,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "ProximaNova-Regular",
-                            )),
-                      ],
+                    Image.network(
+                      _image,
+                      width: 79.85,
+                      height: 79.85,
+                      fit: BoxFit.fill,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Text(_nom,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15.265845,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "ProximaNova-Regular",
+                              )),
+                          Text(_editeur,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "ProximaNova-Regular",
+                              )),
+                        ],
+                      ),
                     ),
                   ],
                 ),
