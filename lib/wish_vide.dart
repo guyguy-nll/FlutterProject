@@ -17,7 +17,7 @@ class _PageWishvide extends State<PageWishvide> {
         backgroundColor: Colors.black,
         elevation: 0.0,
         title: Text(
-          "Mes likes",
+          "Ma liste de souhaits",
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,

@@ -48,7 +48,7 @@ class _ConnectPageState extends State<ConnectPage> {
               height: 100,
             ),
             Text(
-              "Bienvenue!",
+              "Bienvenue !",
               style: TextStyle(
                 color: Color(0xFFFFFFff),
                 fontFamily: "GoogleSans-Bold",
@@ -68,8 +68,11 @@ class _ConnectPageState extends State<ConnectPage> {
                 fontWeight: FontWeight.w400,
               ),
             ),
+            SizedBox(
+              height: 15,
+            ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
               child: TextField(
                 controller: emailController,
                 style: TextStyle(color: Colors.white),
@@ -78,16 +81,14 @@ class _ConnectPageState extends State<ConnectPage> {
                 decoration: InputDecoration(
                   fillColor: Color(0xff1E262B),
                   filled: true,
-                  hintText: "E-mail",
+                  hintText: "E-Mail",
                   hintStyle: TextStyle(color: Colors.white),
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
               child: TextField(
                 controller: passwordController,
                 textAlign: TextAlign.center,
@@ -105,7 +106,7 @@ class _ConnectPageState extends State<ConnectPage> {
               height: 80.0,
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
               child: Container(
                 width: double.infinity,
                 child: RawMaterialButton(
@@ -126,11 +127,9 @@ class _ConnectPageState extends State<ConnectPage> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
               child: Container(
                 width: double.infinity,
                 child: OutlinedButton(
@@ -148,7 +147,7 @@ class _ConnectPageState extends State<ConnectPage> {
                           borderRadius: BorderRadius.circular(3.52)),
                       side: BorderSide(color: Color(0xFF636af6)),
                       backgroundColor: Color(0xff1A2025)),
-                  child: Text("Créer un compte",
+                  child: Text("Créer un nouveau compte",
                       style: TextStyle(
                           color: Color(0xFFFFFFff),
                           fontFamily: "ProximaNova-Regular",
@@ -158,7 +157,7 @@ class _ConnectPageState extends State<ConnectPage> {
               ),
             ),
             SizedBox(
-              height: 120.0,
+              height: 180.0,
             ),
             Align(
               alignment: Alignment.bottomCenter,

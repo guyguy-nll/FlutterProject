@@ -77,7 +77,7 @@ class _pageInscription extends State<pageInscription> {
                   height: 70,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
                   child: TextFormField(
                     controller: nomControl,
                     style: TextStyle(color: Colors.white),
@@ -92,7 +92,7 @@ class _pageInscription extends State<pageInscription> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
                   child: TextFormField(
                     controller: mailControl,
                     style: TextStyle(color: Colors.white),
@@ -107,7 +107,7 @@ class _pageInscription extends State<pageInscription> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
                   child: TextFormField(
                     controller: mdpControl,
                     style: TextStyle(color: Colors.white),
@@ -128,7 +128,7 @@ class _pageInscription extends State<pageInscription> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
                   child: TextFormField(
                     controller: mdpverifControl,
                     style: TextStyle(color: Colors.white),
@@ -143,10 +143,10 @@ class _pageInscription extends State<pageInscription> {
                   ),
                 ),
                 SizedBox(
-                  height: 30.0,
+                  height: 70,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
                   child: Container(
                     width: double.infinity,
                     child: RawMaterialButton(
@@ -162,7 +162,7 @@ class _pageInscription extends State<pageInscription> {
                           style: TextStyle(
                               color: Color(0xFFFFFFff),
                               fontFamily: "ProximaNova-Regular",
-                              fontSize: 15.239016,
+                              fontSize: 17.61,
                               fontWeight: FontWeight.w400)),
                     ),
                   ),

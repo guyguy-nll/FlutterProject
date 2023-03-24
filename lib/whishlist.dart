@@ -123,7 +123,7 @@ class _pageWish extends State<pageWish> {
         backgroundColor: Colors.black,
         elevation: 0.0,
         title: Text(
-          "Ma Wishlist",
+          "Ma liste de souhaits",
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,
