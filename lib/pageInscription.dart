@@ -109,8 +109,6 @@ class _pageInscription extends State<pageInscription> {
                   ),
                 ),
                 Padding(
-                    decoration: InputDecoration(
-                      fillColor: Color(0xff1E262B),
                   padding:
                       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
                   child: Stack(
