@@ -29,7 +29,7 @@ class _pageInscription extends State<pageInscription> {
   final TextEditingController mailControl = TextEditingController();
   final TextEditingController mdpControl = TextEditingController();
   final TextEditingController mdpverifControl = TextEditingController();
-  bool testmdp = true;
+  bool testmdp = false;
   bool charge = false;
 
   @override
@@ -77,7 +77,8 @@ class _pageInscription extends State<pageInscription> {
                   height: 70,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
                   child: TextFormField(
                     controller: nomControl,
                     style: TextStyle(color: Colors.white),
@@ -92,7 +93,8 @@ class _pageInscription extends State<pageInscription> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
                   child: TextFormField(
                     controller: mailControl,
                     style: TextStyle(color: Colors.white),
@@ -107,28 +109,32 @@ class _pageInscription extends State<pageInscription> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
-                  child: TextFormField(
-                    controller: mdpControl,
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
                       fillColor: Color(0xff1E262B),
-                      filled: true,
-                      hintText: "Mot de passe",
-                      hintStyle: TextStyle(color: Colors.white),
-                      suffixIcon: testmdp
-                          ? SizedBox()
-                          : Icon(
-                              Icons.warning,
-                              color: Colors.red,
-                            ),
-                    ),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                  child: Stack(
+                    alignment: Alignment.centerRight,
+                    children: [
+                      TextFormField(
+                        controller: mdpControl,
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.visiblePassword,
+                        decoration: InputDecoration(
+                          fillColor: Color(0xff1E262B),
+                          filled: true,
+                          hintText: "Mot de passe",
+                          hintStyle: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      if (testmdp) Icon(Icons.warning, color: Colors.red),
+                    ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
                   child: TextFormField(
                     controller: mdpverifControl,
                     style: TextStyle(color: Colors.white),
@@ -146,7 +152,8 @@ class _pageInscription extends State<pageInscription> {
                   height: 70,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
                   child: Container(
                     width: double.infinity,
                     child: RawMaterialButton(
@@ -178,7 +185,7 @@ class _pageInscription extends State<pageInscription> {
     });
     if (mdpControl.text.trim() != mdpverifControl.text.trim()) {
       setState(() {
-        testmdp = false;
+        testmdp = true;
         charge = false;
       });
       return;
