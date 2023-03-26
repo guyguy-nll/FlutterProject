@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'package:projet/jeuModele.dart';
 import 'package:projet/detailJeu.dart';
 import 'package:http/http.dart' as http;
+import 'package:projet/detailJeu.dart';
+
 
 class pageRecherche extends StatefulWidget {
   const pageRecherche({Key? key}) : super(key: key);
@@ -13,114 +15,497 @@ class pageRecherche extends StatefulWidget {
   State<pageRecherche> createState() => _pageRecherche();
 }
 
-class _pageRecherche extends State<pageRecherche> {
-  //initialisation d'une liste
-  //a automatiser avec l'API Steam
 
-  @override
-  void initState() {
-    super.initState();
-    getJeux();
+class _pageRecherche extends State<pageRecherche> {
+  bool _enCoursDeRecherche = false;
+  List<Map<String, dynamic>> _jeux = [];
+
+  Future<void> _rechercherJeux(String recherche) async {
+    setState(() {
+      _enCoursDeRecherche = true;
+    });
+
+    final nomDuJeu = Uri.encodeComponent(recherche);
+    final url = 'https://steamcommunity.com/actions/SearchApps/$nomDuJeu';
+    final response = await http.get(Uri.parse(url));
+
+ List<Map<String, dynamic>> jeux = [];
+if (response.statusCode == 200 && response.body.isNotEmpty) {
+  final data = jsonDecode(response.body) as List<dynamic>;
+  final rawJeux = data as List<dynamic>;
+  jeux = rawJeux
+      .map((jeu) => {
+'appid': int.parse(jeu['appid'] as String),
+            'name': jeu['name'] as String,
+            'icon': jeu['img_logo_url'] != null ? jeu['img_logo_url'] as String : null,
+          })
+      .toList();
+}
+
+
+    setState(() {
+      _enCoursDeRecherche = false;
+      _jeux = jeux;
+    });
   }
 
-  static List<JeuModel> list_jeu = [];
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Color(0xff1E262B),
+    appBar: AppBar(
+      backgroundColor: Color(0xff1E262B),
+      elevation: 0.0,
+      title: Expanded(
+        child: TextField(
+          onChanged: (recherche) {
+            _rechercherJeux(recherche);
+          },
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Color.fromARGB(255, 29, 28, 28),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              borderSide: BorderSide.none,
+            ),
+            hintText: "Rechercher un jeu…",
+            hintStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 12.9172535,
+              fontWeight: FontWeight.w400,
+              fontFamily: "ProximaNova-Regular",
+            ),
+            suffixIcon: Icon(
+              Icons.search,
+              color: Color(0xFF636AF6),
+            ),
+          ),
+        ),
+      ),
+      bottom: PreferredSize(
+        preferredSize: Size.fromHeight(20.0),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Text(
+            'Nombre de résultats : ${_jeux.length}',
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.white,
+              fontWeight: FontWeight.w400,
+              fontFamily: "ProximaNova-Regular",
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
+      ),
+    ),
+    body: Scrollbar(
+      child: ListView.builder(
+        itemCount: _jeux.length,
+        itemBuilder: (BuildContext context, int index) {
+          final nomJeu = _jeux[index]['name'] as String;
+          final idJeu = _jeux[index]['appid'].toString();
+          final iconUrl =
+              'https://cdn.cloudflare.steamstatic.com/steam/apps/${_jeux[index]['appid']}/header.jpg';
 
-  Future<void> getJeux() async {
-    //final String apiKey = '543CB15FFA49C7D4EAF4E917BBCC12B9';
-    final List<String> appIds = ['570', '730', '1091500', '570940', '583950'];
+          return Card(
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: ColoredBox(
+                    color: Color(0xFF232C34),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Image.network(
+                      iconUrl,
+                      width: 63,
+                      height: 79,
+                      fit: BoxFit.fill,
+                    ),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            nomJeu,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15.265845,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "ProximaNova-Regular",
+                            ),
+                          ),
+                          Text(
+                            idJeu,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "ProximaNova-Regular",
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 102,
+                      width: 100.99,
+                      child: RawMaterialButton(
+                        fillColor: Color(0xFF636af6),
+                        elevation: 0.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3.52),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => pageDetail(jeuId: int.parse(idJeu)),
+                            ),
+                          );
+                        },
+                        child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "En savoir",
+                                      style: TextStyle(
+                                        color: Color(0xFFFFFFff),
+                                        fontFamily: "ProximaNova-Regular",
+                                        fontSize: 18.8,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    Text(
+                                      "plus",
+                                      style: TextStyle(
+                                        color: Color(0xFFFFFFff),
+                                        fontFamily: "ProximaNova-Regular",
+                                        fontSize: 18.8788733,
+                                            fontWeight: FontWeight.w400)),
+                                  ],
+                                ),
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    ),
+  );
+}
 
-    for (var i = 0; i < appIds.length; i++) {
-      final String url =
-          'https://store.steampowered.com/api/appdetails/?appids=${appIds[i]}&key=543CB15FFA49C7D4EAF4E917BBCC12B9&json=1';
+   
 
-      final response = await http.get(Uri.parse(url), headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-      });
+   
 
-      if (response.statusCode == 200) {
-        final jsonResponse = json.decode(response.body);
-        final data = jsonResponse[appIds[i]]['data'];
+}
 
-        final String jeu_titre = data['name'];
-        final String jeu_editeur = data['publishers'][0];
-        final String jeu_prix = data['type'];
-        final String jeu_poster_url = data['header_image'];
-        final int jeu_id = data['steam_appid'];
 
-        final JeuModel jeu = JeuModel(
-            jeu_titre: jeu_titre,
-            jeu_editeur: jeu_editeur,
-            jeu_prix: jeu_prix,
-            jeu_poster_url: jeu_poster_url,
-            jeu_id: jeu_id);
-        setState(() {
-          list_jeu.add(jeu);
-        });
-      } else {
-        print('Request failed with status: ${response.statusCode}.');
+/*
+class _pageRecherche extends State<pageRecherche> {
+  bool _enCoursDeRecherche = false;
+  List<Map<String, dynamic>> _jeux = [];
+
+  Future<void> _rechercherJeux(String recherche) async {
+    setState(() {
+      _enCoursDeRecherche = true;
+    });
+
+    http.Response response =
+        await http.get(Uri.parse('https://steamcommunity.com/actions/SearchApps/' + recherche));
+
+    List<Map<String, dynamic>> jeux = [];
+    if (response.statusCode == 200 && response.body.isNotEmpty) {
+      print(response.body);
+      List<dynamic> data = jsonDecode(response.body);
+      if (data.isNotEmpty) {
+        jeux = data
+            .where((jeu) => jeu['type'] == 'game')
+            .map<Map<String, dynamic>>((jeu) => {
+                  'name': jeu['name'],
+                  'id': jeu['appid'],
+                  'icon': jeu['icon'],
+                })
+            .toList();
+            print('le name est: ${jeux[0]['name']}');
       }
     }
+
+    setState(() {
+      _enCoursDeRecherche = false;
+      _jeux = jeux;
+    });
   }
-  /*
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Liste des jeux'),
+        title: TextField(
+          onChanged: (recherche) {
+            _rechercherJeux(recherche);
+          },
+          decoration: InputDecoration(
+            hintText: 'Rechercher un jeu...',
+            suffixIcon: _enCoursDeRecherche ? CircularProgressIndicator() : null,
+          ),
+        ),
       ),
-      body: ListView.builder(
-        itemCount: list_jeu.length,
-        itemBuilder: (BuildContext context, int index) {
-          final jeu = list_jeu[index];
-          return ListTile(
-            leading: Image.network(jeu.image),
-            title: Text(jeu.name),
-            subtitle: Text('${jeu.publisher} | ${jeu.price}'),
-          );
-        },
+      body: Scrollbar(
+        child: ListView.builder(
+          itemCount: _jeux.length,
+          itemBuilder: (BuildContext context, int index) {
+            String nomJeu = _jeux[index]['name'];
+            int idJeu = _jeux[index]['id'];
+            String imageUrl = _jeux[index]['icon'];
+
+            print('ID du jeu : $idJeu');
+            print('URL de l\'icone : $imageUrl');
+            print('Nom du jeu : $nomJeu');
+
+            return Column(
+              children: [
+                ListTile(
+                  leading: SizedBox(
+                    width: 56,
+                    height: 56,
+                    child: Image.network(imageUrl, fit: BoxFit.cover),
+                  ),
+                  title: Text(nomJeu),
+                  subtitle: Text('ID: $idJeu'),
+                ),
+                Container(
+                  height: 102,
+                  width: 100.99,
+                  child: RawMaterialButton(
+                    fillColor: Color(0xFF636af6),
+                    elevation: 0.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(3.52),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => pageDetail(jeuId: idJeu),
+                        ),
+                      );
+                    },
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "En savoir",
+                            style: TextStyle(
+                              color: Color(0xFFFFFFff),
+                              fontFamily: "ProximaNova-Regular",
+                              fontSize: 18.788733,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          Text(
+                            "plus",
+                            style: TextStyle(
+                              color: Color(0xFFFFFFff),
+                              fontFamily: "ProximaNova-Regular",
+                              fontSize: 18.788733,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
-  */
+}
+*/
+ 
+/*
+class _pageRecherche extends State<pageRecherche> {
+  bool _enCoursDeRecherche = false;
+  List<Map<String, dynamic>> _jeux = [];
 
-  /*
-  static List<jeuModel> list_jeu = [
-    jeuModel("GTA V", "paul bernard", 13,
-        "https://media-rockstargames-com.akamaized.net/rockstargames-newsite/img/global/games/fob/1280/V.jpg"),
-    jeuModel("Fortnite", "Madame Salade", 17,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJmwo-EMVe3bpGcYJUHtUBDTSHkiMqwatA5Q&usqp=CAU"),
-    jeuModel("Fifa 2023", "Madame Banane", 11,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd5Ilu1hZiTWi_wwoPmbWIsqUN-2Q4-gq-lA&usqp=CAU"),
-    jeuModel("Schrtoumpfs", "Monsieur Kart", 12,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuEWTQEQ5DzeLCzNzQyq-aT2_WXCJ7mMpXkg&usqp=CAU"),
-    jeuModel("Mario", "Monsieur Andive", 19,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE4tG47ov5EpSQ7mN4p2qfnIvG5lrLQmVmog&usqp=CAU"),
-    jeuModel("Human Fall", "Martin", 11,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg8x3Gk679bDQfOlkAvjjCkBl8HHHNgLtJWQ&usqp=CAU"),
-    jeuModel("Supermash", "Bro", 7,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHuo-L8Sg8HR6OlZWRsS3fNK5Hcbujg2fLvw&usqp=CAU"),
-    jeuModel("Chim Party", "Patate", 12,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpFWnvUiLfVxet8bmy-a2tEymqRpn-NeYE_g&usqp=CAU"),
-    jeuModel("Tanaki Justice", "Bernard", 14,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9e-vY91PzDKNMrCKCNNpZbtIUYEhN31XRVA&usqp=CAU"),
-    jeuModel("Megaman", "Etoile", 18,
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs6NMAvupGjYYMYT-FbR7OC8nwR6qhNbiZBA&usqp=CAU"),
-  ];
-  */
-  //liste que l'on affiche
-  List<JeuModel> affichage_list = List.from(list_jeu);
-
-  void updateList(String saisie) {
-    //ajuste la List en fonction de la recherche
+  Future<void> _rechercherJeux(String recherche) async {
     setState(() {
-      affichage_list = list_jeu
-          .where((eLement) =>
-              eLement.jeu_titre!.toLowerCase().contains(saisie.toLowerCase()))
-          .toList();
+      _enCoursDeRecherche = true;
+    });
+
+    http.Response response = await http.get(
+        Uri.parse('https://steamcommunity.com/actions/SearchApps/' + recherche));
+
+    List<Map<String, dynamic>> jeux = [];
+    if (response.statusCode == 200 && response.body.isNotEmpty) {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      if (data.containsKey('results')) {
+        List<dynamic> rawJeux = data['results'];
+        jeux = rawJeux
+            .where((jeu) =>
+                jeu['type'] == 'game')
+            .toList()
+            .cast<Map<String, dynamic>>();
+      }
+    }
+
+    setState(() {
+      _enCoursDeRecherche = false;
+      _jeux = jeux;
     });
   }
+
+  Future<String?> _getImageUrl(String id) async {
+    final url =
+        'https://store.steampowered.com/api/appdetails/?appids=$id&key=543CB15FFA49C7D4EAF4E917BBCC12B9&json=1';
+
+    final response = await http.get(Uri.parse(url), headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+    });
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      if (data.containsKey(id) &&
+          data[id].containsKey('data') &&
+          data[id]['data'].containsKey('header_image')) {
+        return data[id]['data']['header_image'];
+      }
+    }
+    return null;
+  }
+
+*/
+
+/*
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: TextField(
+        onChanged: (recherche) {
+          _rechercherJeux(recherche);
+        },
+        decoration: InputDecoration(
+          hintText: 'Rechercher un jeu...',
+          suffixIcon: _enCoursDeRecherche ? CircularProgressIndicator() : null,
+        ),
+      ),
+    ),
+    body: Scrollbar(
+      child: ListView.builder(
+        itemCount: _jeux.length,
+        itemBuilder: (BuildContext context, int index) {
+          String nomJeu = _jeux[index]['name'];
+          String idJeu = _jeux[index]['appid'].toString();
+          return FutureBuilder<String?>(
+            future: _getImageUrl(idJeu),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return ListTile(
+                  title: Text(nomJeu),
+                  subtitle: Text('ID: $idJeu'),
+                  leading: CircularProgressIndicator(),
+                );
+              }
+              if (snapshot.hasError) {
+                return ListTile(
+                  title: Text(nomJeu),
+                  subtitle: Text('ID: $idJeu'),
+                  leading: Icon(Icons.error),
+                );
+              }
+              String? imageUrl = snapshot.data;
+              return Column(
+                children: [
+                  ListTile(
+                    leading: SizedBox(
+                      width: 56,
+                      height: 56,
+                      child: imageUrl != null
+                          ? Image.network(imageUrl, fit: BoxFit.cover)
+                          : Placeholder(),
+                    ),
+                    title: Text(nomJeu),
+                    subtitle: Text('ID: $idJeu'),
+                  ),
+                  Container(
+                    height: 102,
+                    width: 100.99,
+                    child: RawMaterialButton(
+                      fillColor: Color(0xFF636af6),
+                      elevation: 0.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(3.52),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => pageDetail(jeuId: int.parse(idJeu)),
+                          ),
+                        );
+                      },
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "En savoir",
+                              style: TextStyle(
+                                color: Color(0xFFFFFFff),
+                                fontFamily: "ProximaNova-Regular",
+                                fontSize: 18.788733,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Text(
+                              "plus",
+                              style: TextStyle(
+                                color: Color(0xFFFFFFff),
+                                fontFamily: "ProximaNova-Regular",
+                                fontSize: 18.788733,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
+    ),
+  );
+}
+
+}
+*/
+
+ /*
 
   @override
   Widget build(BuildContext context) {
@@ -289,3 +674,4 @@ class _pageRecherche extends State<pageRecherche> {
     );
   }
 }
+*/

@@ -12,6 +12,7 @@ import 'package:projet/like_vide.dart';
 import 'package:projet/pageAccueil.dart';
 import 'package:projet/pageConnect.dart';
 import 'package:projet/home.dart';
+import 'package:projet/searchPage.dart';
 import 'package:projet/wish_vide.dart';
 import 'firebase_options.dart';
 import 'pageInscription.dart';
@@ -48,9 +49,9 @@ class Acc extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return pageInscription();
+              return pageRecherche();
             } else {
-              return ConnectPage();
+              return pageRecherche();
             }
           }));
 }
