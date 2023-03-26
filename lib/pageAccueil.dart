@@ -20,7 +20,7 @@ class _pageAccueil extends State<pageAccueil> {
   //initialisation d'une liste
   //a automatiser avec l'API Steam
   List<JeuModel> list_meilleuresVentes = [];
-  
+
   //liste que l'on affiche
 
   bool _isLoading = true;
@@ -48,9 +48,15 @@ class _pageAccueil extends State<pageAccueil> {
 
         final String jeu_titre = data['name'];
         final String jeu_editeur = data['publishers'][0];
-        final String jeu_prix = data['type'];
+        final String jeu_prix;
         final String jeu_poster_url = data['header_image'];
         final int jeu_id = data['steam_appid'];
+
+        if (data.containsKey('price_overview')) {
+          jeu_prix = data['price_overview']['final_formatted'];
+        } else {
+          jeu_prix = '0 €';
+        }
 
         final JeuModel jeu = JeuModel(
             jeu_titre: jeu_titre,
@@ -71,30 +77,30 @@ class _pageAccueil extends State<pageAccueil> {
   }
 
   Future<List<String>> loadGames() async {
-  final response = await http.get(
-    Uri.parse(
-        'https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/?'),
-  );
+    final response = await http.get(
+      Uri.parse(
+          'https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/?'),
+    );
 
-  if (response.statusCode == 200) {
-    try {
-      Map json = jsonDecode(response.body);
-      List<dynamic> ranks = json['response']['ranks'] as List<dynamic>;
-      List<String> appIds = [];
-      for (var i = 0; i < ranks.length; i++) {
-        Map rank = ranks[i];
-        appIds.add(rank['appid'].toString());
+    if (response.statusCode == 200) {
+      try {
+        Map json = jsonDecode(response.body);
+        List<dynamic> ranks = json['response']['ranks'] as List<dynamic>;
+        List<String> appIds = [];
+        for (var i = 0; i < ranks.length; i++) {
+          Map rank = ranks[i];
+          appIds.add(rank['appid'].toString());
+        }
+        return appIds;
+      } catch (err) {
+        print(err);
+        return [];
       }
-      return appIds;
-    } catch (err) {
-      print(err);
-      return [];
+    } else {
+      throw Exception(
+          'Failed to load most played games: ${response.statusCode}');
     }
-  } else {
-    throw Exception(
-        'Failed to load most played games: ${response.statusCode}');
   }
-}
 
   @override
   void initState() {
@@ -309,7 +315,7 @@ class _pageAccueil extends State<pageAccueil> {
                           list_meilleuresVentes[index].jeu_poster_url!,
                           width: 63,
                           height: 79,
-                         fit: BoxFit.fill,
+                          fit: BoxFit.fill,
                         ),
                         SizedBox(
                           width: 5.0,
@@ -325,7 +331,6 @@ class _pageAccueil extends State<pageAccueil> {
                                     fontWeight: FontWeight.w400,
                                     fontFamily: "ProximaNova-Regular",
                                   )),
-
                               Text(list_meilleuresVentes[index].jeu_editeur!,
                                   style: TextStyle(
                                     color: Colors.white,
@@ -337,28 +342,28 @@ class _pageAccueil extends State<pageAccueil> {
                                 height: 5.0,
                               ),
                               RichText(
-                              text: TextSpan(
-                                text: "Prix: ",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "ProximaNova-Regular",
-                                  decoration: TextDecoration.underline,
-                                ),
-                                children:[
-                              TextSpan(
-                              text: '${list_meilleuresVentes[index].jeu_prix!}'
-                                  "€",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "ProximaNova-Regular",
-                                      decoration: TextDecoration.none,
-                                  ),
-                              ),]
-                              ),
+                                text: TextSpan(
+                                    text: "Prix:",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "ProximaNova-Regular",
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: " "
+                                            '${list_meilleuresVentes[index].jeu_prix!}',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "ProximaNova-Regular",
+                                          decoration: TextDecoration.none,
+                                        ),
+                                      ),
+                                    ]),
                               ),
                             ],
                           ),
@@ -381,24 +386,24 @@ class _pageAccueil extends State<pageAccueil> {
                               );
                             },
                             child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                 Text("En savoir",
-                                  style: TextStyle(
-                                      color: Color(0xFFFFFFff),
-                                      fontFamily: "ProximaNova-Regular",
-                                      fontSize: 18.788733,
-                                      fontWeight: FontWeight.w400)),
-                              Text("plus",
-                                  style: TextStyle(
-                                      color: Color(0xFFFFFFff),
-                                      fontFamily: "ProximaNova-Regular",
-                                      fontSize: 18.788733,
-                                      fontWeight: FontWeight.w400)),
-
-                            ],),),
-
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("En savoir",
+                                      style: TextStyle(
+                                          color: Color(0xFFFFFFff),
+                                          fontFamily: "ProximaNova-Regular",
+                                          fontSize: 18.788733,
+                                          fontWeight: FontWeight.w400)),
+                                  Text("plus",
+                                      style: TextStyle(
+                                          color: Color(0xFFFFFFff),
+                                          fontFamily: "ProximaNova-Regular",
+                                          fontSize: 18.788733,
+                                          fontWeight: FontWeight.w400)),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ],
