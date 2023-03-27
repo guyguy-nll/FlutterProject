@@ -102,24 +102,22 @@ class _pageAvis extends State<pageAvis> {
       final json = jsonDecode(responseAvis.body);
       final avisJson = json['reviews'] as List<dynamic>;
       for (var i = 0; i < avisJson.length; i++) {
-        // print(avisJson[i]["review"]);
+        final String avis = avisJson[i]["review"] ?? '';
+        print(avis);
+        final maxChars = 30;
 
-        final maxChars = 6;
+        final descriptionDimensionne = avis.length <= maxChars
+            ? avis
+            : '${avis.substring(0, maxChars)}...';
 
-/*final String descriptionAvis = avisJson[i]["review"];
-
-        final descriptionDimensionne = descriptionAvis.length <= maxChars
-            ? descriptionAvis
-            : '${descriptionAvis.substring(0, maxChars)}...';
-        print(descriptionAvis);
-        */
         //final String noteAvis = avisJson[i]["weighted_vote_score"];
-        /*final AvisModel Avis = AvisModel(
+        final AvisModel Avis = AvisModel(
             avis_description: descriptionDimensionne,
             //avis_etoile: noteAvis,
-            jeu_id: widget.jeuId);*/
+            jeu_id: widget.jeuId);
+
         setState(() {
-          //listAvis.add(Avis);
+          listAvis.add(Avis);
         });
       }
 
@@ -356,41 +354,55 @@ class _pageAvis extends State<pageAvis> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                /*
-                child: ListView.builder(
-                  itemCount: listAvis.length,
-                  itemBuilder: (context, index) => Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.17),
-                    ),
-                    child: Stack(
-                      children: [
-                        Positioned.fill(
-                            child: ColoredBox(
-                          color: Color(0xFF232C34),
-                        )),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: ListView.builder(
+                    itemCount: listAvis.length,
+                    itemBuilder: (context, index) => SizedBox(
+                      height: 70,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.17),
+                        ),
+                        child: Stack(
                           children: [
-                            Text(listAvis[index].avis_description!,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.265845,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "ProximaNova-Regular",
-                                )),
-                            SizedBox(
-                              height: 5.0,
+                            Positioned.fill(
+                                child: ColoredBox(
+                              color: Color(0xFF232C34),
+                            )),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 10.0,
+                                ),
+                                SizedBox(
+                                  width: 10.0,
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Text(listAvis[index].avis_description!,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15.265845,
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: "ProximaNova-Regular",
+                                          )),
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-                */
               ),
             ],
           ),
