@@ -12,9 +12,9 @@ class _PageWishvide extends State<PageWishvide> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff1E262B),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
         title: Text(
           "Ma liste de souhaits",

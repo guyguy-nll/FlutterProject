@@ -194,9 +194,9 @@ class _pageDetail extends State<pageDetail> {
       );
     }
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff1E262B),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
         title: Text(
           "Détail du jeu",
@@ -262,7 +262,7 @@ class _pageDetail extends State<pageDetail> {
                 height: 50,
               ),
               Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(8.0),
                 child: Container(
                   width: double.infinity,
                   height: 40.23,
@@ -304,7 +304,7 @@ class _pageDetail extends State<pageDetail> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(8.0),
                 child: Text(_description ?? "Aucune description disponible",
                     style: TextStyle(
                         color: Color(0xFFFFFFff),

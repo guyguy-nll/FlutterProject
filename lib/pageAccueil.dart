@@ -130,9 +130,9 @@ class _pageAccueil extends State<pageAccueil> {
       );
     }
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff1E262B),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
         title: Text(
           "Accueil",
@@ -185,7 +185,7 @@ class _pageAccueil extends State<pageAccueil> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(8.0),
             child: TextField(
               onTap: () {
                 setState(() {
@@ -291,7 +291,7 @@ class _pageAccueil extends State<pageAccueil> {
             height: 10.0,
           ),
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(8.0),
             child: Text(
               "Les meilleures ventes",
               style: TextStyle(
@@ -307,115 +307,121 @@ class _pageAccueil extends State<pageAccueil> {
             height: 10.0,
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: list_meilleuresVentes.length,
-              itemBuilder: (context, index) => Card(
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                        child: ColoredBox(
-                      color: Colors.black,
-                    )),
-                    Row(
-                      children: [
-                        Image.network(
-                          list_meilleuresVentes[index].jeu_poster_url!,
-                          width: 63,
-                          height: 79,
-                          fit: BoxFit.fill,
-                        ),
-                        SizedBox(
-                          width: 5.0,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(list_meilleuresVentes[index].jeu_titre!,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15.265845,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "ProximaNova-Regular",
-                                  )),
-                              Text(list_meilleuresVentes[index].jeu_editeur!,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "ProximaNova-Regular",
-                                  )),
-                              SizedBox(
-                                height: 5.0,
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                    text: "Prix:",
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: ListView.builder(
+                itemCount: list_meilleuresVentes.length,
+                itemBuilder: (context, index) => Card(
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                          child: ColoredBox(
+                        color: Color(0xFF232C34),
+                      )),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Image.network(
+                            list_meilleuresVentes[index].jeu_poster_url!,
+                            width: 63,
+                            height: 79,
+                            fit: BoxFit.fill,
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(list_meilleuresVentes[index].jeu_titre!,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15.265845,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "ProximaNova-Regular",
+                                    )),
+                                Text(list_meilleuresVentes[index].jeu_editeur!,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "ProximaNova-Regular",
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: " "
-                                            '${list_meilleuresVentes[index].jeu_prix!}',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: "ProximaNova-Regular",
-                                          decoration: TextDecoration.none,
-                                        ),
+                                    )),
+                                SizedBox(
+                                  height: 5.0,
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                      text: "Prix:",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "ProximaNova-Regular",
+                                        decoration: TextDecoration.underline,
                                       ),
-                                    ]),
-                              ),
-                            ],
+                                      children: [
+                                        TextSpan(
+                                          text: " "
+                                              '${list_meilleuresVentes[index].jeu_prix!}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: "ProximaNova-Regular",
+                                            decoration: TextDecoration.none,
+                                          ),
+                                        ),
+                                      ]),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          height: 102,
-                          width: 100.99,
-                          child: RawMaterialButton(
-                            fillColor: Color(0xFF636af6),
-                            elevation: 0.0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(3.52)),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => pageDetail(
-                                        jeuId: list_meilleuresVentes[index]
-                                            .jeu_id!)),
-                              );
-                            },
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("En savoir",
-                                      style: TextStyle(
-                                          color: Color(0xFFFFFFff),
-                                          fontFamily: "ProximaNova-Regular",
-                                          fontSize: 18.788733,
-                                          fontWeight: FontWeight.w400)),
-                                  Text("plus",
-                                      style: TextStyle(
-                                          color: Color(0xFFFFFFff),
-                                          fontFamily: "ProximaNova-Regular",
-                                          fontSize: 18.788733,
-                                          fontWeight: FontWeight.w400)),
-                                ],
+                          Container(
+                            height: 102,
+                            width: 100.99,
+                            child: RawMaterialButton(
+                              fillColor: Color(0xFF636af6),
+                              elevation: 0.0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(3.52)),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => pageDetail(
+                                          jeuId: list_meilleuresVentes[index]
+                                              .jeu_id!)),
+                                );
+                              },
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("En savoir",
+                                        style: TextStyle(
+                                            color: Color(0xFFFFFFff),
+                                            fontFamily: "ProximaNova-Regular",
+                                            fontSize: 18.788733,
+                                            fontWeight: FontWeight.w400)),
+                                    Text("plus",
+                                        style: TextStyle(
+                                            color: Color(0xFFFFFFff),
+                                            fontFamily: "ProximaNova-Regular",
+                                            fontSize: 18.788733,
+                                            fontWeight: FontWeight.w400)),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

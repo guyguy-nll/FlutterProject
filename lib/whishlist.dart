@@ -32,63 +32,70 @@ class _pageWish extends State<pageWish> {
     //final String apiKey = '543CB15FFA49C7D4EAF4E917BBCC12B9';
     final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
-  final userData = await FirebaseFirestore.instance.collection('Users').doc(user!.uid).get();
-  final Map<String, dynamic> wishlist = userData.data()!['wishlist'] ?? {};
-  List<String> likedGames = [];
+    final userData = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uid)
+        .get();
+    final Map<String, dynamic> wishlist = userData.data()!['wishlist'] ?? {};
+    List<String> likedGames = [];
 
-  wishlist.forEach((key, value) {
-    likedGames.add(key);
-  });
+    wishlist.forEach((key, value) {
+      likedGames.add(key);
+    });
 
     //final List<String> appIds = ['570', '730', '1091500', '570940', '583950'];
     final List<String> appIds = likedGames;
     appIds.forEach((element) {
-  print(element);
-});
-    if(!appIds.isEmpty){
-    for (var i = 0; i < appIds.length; i++) {
-      final String url =
-          'https://store.steampowered.com/api/appdetails/?appids=${appIds[i]}&key=543CB15FFA49C7D4EAF4E917BBCC12B9&json=1';
+      print(element);
+    });
+    if (!appIds.isEmpty) {
+      for (var i = 0; i < appIds.length; i++) {
+        final String url =
+            'https://store.steampowered.com/api/appdetails/?appids=${appIds[i]}&key=543CB15FFA49C7D4EAF4E917BBCC12B9&json=1';
 
-      final response = await http.get(Uri.parse(url), headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-      });
-
-      if (response.statusCode == 200) {
-        final jsonResponse = json.decode(response.body);
-        final data = jsonResponse[appIds[i]]['data'];
-
-        final String jeu_titre = data['name'];
-        final String jeu_editeur = data['publishers'][0];
-        final String jeu_prix = data['type'];
-        final String jeu_poster_url = data['header_image'];
-        final int jeu_id = data['steam_appid'];
-
-        final JeuModel jeu = JeuModel(
-            jeu_titre: jeu_titre,
-            jeu_editeur: jeu_editeur,
-            jeu_prix: jeu_prix,
-            jeu_poster_url: jeu_poster_url,
-            jeu_id: jeu_id);
-        setState(() {
-          list_meilleuresVentes.add(jeu);
+        final response = await http.get(Uri.parse(url), headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
         });
-      } else {
-        print('Erreur: ${response.statusCode}.');
-      }
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-  else {
+
+        if (response.statusCode == 200) {
+          final jsonResponse = json.decode(response.body);
+          final data = jsonResponse[appIds[i]]['data'];
+
+          final String jeu_titre = data['name'];
+          final String jeu_editeur = data['publishers'][0];
+          final String jeu_prix;
+          final String jeu_poster_url = data['header_image'];
+          final int jeu_id = data['steam_appid'];
+          if (data.containsKey('price_overview')) {
+            jeu_prix = data['price_overview']['final_formatted'];
+          } else {
+            jeu_prix = '0 €';
+          }
+
+          final JeuModel jeu = JeuModel(
+              jeu_titre: jeu_titre,
+              jeu_editeur: jeu_editeur,
+              jeu_prix: jeu_prix,
+              jeu_poster_url: jeu_poster_url,
+              jeu_id: jeu_id);
+          setState(() {
+            list_meilleuresVentes.add(jeu);
+          });
+        } else {
+          print('Erreur: ${response.statusCode}.');
+        }
         setState(() {
           _isLoading = false;
-          vide = true;
         });
       }
+    } else {
+      setState(() {
+        _isLoading = false;
+        vide = true;
+      });
+    }
   }
 
   @override
@@ -118,52 +125,52 @@ class _pageWish extends State<pageWish> {
     }
     if (vide) {
       return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0.0,
-        title: Text(
-          "Ma liste de souhaits",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
-            fontFamily: "GoogleSans-Bold",
+        backgroundColor: Color(0xff1E262B),
+        appBar: AppBar(
+          backgroundColor: Color(0xff1E262B),
+          elevation: 0.0,
+          title: Text(
+            "Ma liste de souhaits",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: "GoogleSans-Bold",
+            ),
           ),
         ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SvgPicture.asset(
-              'assets/images/empty_whishlist.svg',
-              width: 94.0,
-              height: 94.0,
-              color: Colors.white,
-            ),
-            SizedBox(
-              height: 60,
-            ),
-            Text(
-              "Vous n'avez pas whishé de contenu.\n cliquez sur le coeur pour en ajouter",
-              style: TextStyle(
-                color: Color(0xFFFFFFff),
-                fontFamily: "ProximaNova-Regular",
-                fontSize: 15.265845,
-                fontWeight: FontWeight.w400,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SvgPicture.asset(
+                'assets/images/empty_whishlist.svg',
+                width: 94.0,
+                height: 94.0,
+                color: Colors.white,
               ),
-              textAlign: TextAlign.center,
-            ),
-          ],
+              SizedBox(
+                height: 60,
+              ),
+              Text(
+                "Vous n'avez pas whishé de contenu.\n cliquez sur le coeur pour en ajouter",
+                style: TextStyle(
+                  color: Color(0xFFFFFFff),
+                  fontFamily: "ProximaNova-Regular",
+                  fontSize: 15.265845,
+                  fontWeight: FontWeight.w400,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
     }
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff1E262B),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
         title: Text(
           "Ma Wishlist",
@@ -176,14 +183,14 @@ class _pageWish extends State<pageWish> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-            height: 10.0,
-          ),
+              height: 10.0,
+            ),
             Expanded(
               child: ListView.builder(
                 itemCount: list_meilleuresVentes.length,
@@ -192,10 +199,13 @@ class _pageWish extends State<pageWish> {
                     children: [
                       Positioned.fill(
                           child: ColoredBox(
-                            color: Colors.black,
-                          )),
+                        color: Color(0xFF232C34),
+                      )),
                       Row(
                         children: [
+                          SizedBox(
+                            width: 10.0,
+                          ),
                           Image.network(
                             list_meilleuresVentes[index].jeu_poster_url!,
                             width: 63,
@@ -203,7 +213,7 @@ class _pageWish extends State<pageWish> {
                             fit: BoxFit.fill,
                           ),
                           SizedBox(
-                            width: 5.0,
+                            width: 10.0,
                           ),
                           Expanded(
                             child: Column(
@@ -216,7 +226,6 @@ class _pageWish extends State<pageWish> {
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "ProximaNova-Regular",
                                     )),
-
                                 Text(list_meilleuresVentes[index].jeu_editeur!,
                                     style: TextStyle(
                                       color: Colors.white,
@@ -229,7 +238,7 @@ class _pageWish extends State<pageWish> {
                                 ),
                                 RichText(
                                   text: TextSpan(
-                                      text: "Prix: ",
+                                      text: "Prix:",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 12,
@@ -237,10 +246,10 @@ class _pageWish extends State<pageWish> {
                                         fontFamily: "ProximaNova-Regular",
                                         decoration: TextDecoration.underline,
                                       ),
-                                      children:[
+                                      children: [
                                         TextSpan(
-                                          text: '${list_meilleuresVentes[index].jeu_prix!}'
-                                              "€",
+                                          text: " "
+                                              '${list_meilleuresVentes[index].jeu_prix!}',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
@@ -248,8 +257,8 @@ class _pageWish extends State<pageWish> {
                                             fontFamily: "ProximaNova-Regular",
                                             decoration: TextDecoration.none,
                                           ),
-                                        ),]
-                                  ),
+                                        ),
+                                      ]),
                                 ),
                               ],
                             ),
@@ -287,9 +296,9 @@ class _pageWish extends State<pageWish> {
                                             fontFamily: "ProximaNova-Regular",
                                             fontSize: 18.788733,
                                             fontWeight: FontWeight.w400)),
-
-                                  ],),),
-
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ],
