@@ -62,7 +62,6 @@ class _pageRecherche extends State<pageRecherche> {
         elevation: 0.0,
         centerTitle: false,
         title: Text(
-          textAlign: TextAlign.left,
           "Recherche",
           style: TextStyle(
             color: Colors.white,
