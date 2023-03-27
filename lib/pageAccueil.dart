@@ -187,7 +187,14 @@ class _pageAccueil extends State<pageAccueil> {
           Padding(
             padding: EdgeInsets.all(16.0),
             child: TextField(
-              onChanged: (value) => updatePage(),
+              onTap: () {
+                setState(() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => pageRecherche()),
+                  );
+                });
+              },
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Color.fromARGB(255, 29, 28, 28),
