@@ -134,6 +134,7 @@ class _pageAccueil extends State<pageAccueil> {
       appBar: AppBar(
         backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
+        centerTitle: false,
         title: Text(
           "Accueil",
           style: TextStyle(

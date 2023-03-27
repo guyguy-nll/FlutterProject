@@ -149,7 +149,9 @@ class _pageLike extends State<pageLike> {
               }),
           backgroundColor: Color(0xff1E262B),
           elevation: 0.0,
+          centerTitle: false,
           title: Text(
+            textAlign: TextAlign.left,
             "Mes likes",
             style: TextStyle(
               color: Colors.white,
@@ -198,7 +200,9 @@ class _pageLike extends State<pageLike> {
             }),
         backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
+        centerTitle: false,
         title: Text(
+          textAlign: TextAlign.left,
           "Mes likes",
           style: TextStyle(
             color: Colors.white,

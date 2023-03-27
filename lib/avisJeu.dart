@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:projet/detailJeu.dart';
 import 'package:projet/jeuModele.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -196,7 +197,8 @@ class _pageAvis extends State<pageAvis> {
     return Scaffold(
       backgroundColor: Color(0xff1A2026),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        centerTitle: false,
+        backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
         title: Text(
           "Détail du jeu",
@@ -277,9 +279,15 @@ class _pageAvis extends State<pageAvis> {
                       Expanded(
                         child: Container(
                           child: RawMaterialButton(
-                            fillColor: Color(0xFF636af6),
                             elevation: 0.0,
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        pageDetail(jeuId: widget.jeuId)),
+                              );
+                            },
                             child: Text("DESCRIPTION",
                                 style: TextStyle(
                                     color: Color(0xFFFFFFff),
@@ -293,6 +301,7 @@ class _pageAvis extends State<pageAvis> {
                         child: Container(
                           child: RawMaterialButton(
                             elevation: 0.0,
+                            fillColor: Color(0xFF636af6),
                             onPressed: () {},
                             child: Text("AVIS",
                                 style: TextStyle(

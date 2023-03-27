@@ -7,6 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'avisJeu.dart';
+
 class pageDetail extends StatefulWidget {
   final int jeuId;
   pageDetail({required this.jeuId});
@@ -198,6 +200,7 @@ class _pageDetail extends State<pageDetail> {
       appBar: AppBar(
         backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
+        centerTitle: false,
         title: Text(
           "Détail du jeu",
           style: TextStyle(
@@ -293,7 +296,14 @@ class _pageDetail extends State<pageDetail> {
                         child: Container(
                           child: RawMaterialButton(
                             elevation: 0.0,
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        pageAvis(jeuId: widget.jeuId)),
+                              );
+                            },
                             child: Text("AVIS",
                                 style: TextStyle(
                                     color: Color(0xFFFFFFff),

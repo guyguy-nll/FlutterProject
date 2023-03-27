@@ -21,6 +21,7 @@ class _PageWishvide extends State<PageWishvide> {
             }),
         backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
+        centerTitle: false,
         title: Text(
           "Ma liste de souhaits",
           style: TextStyle(
