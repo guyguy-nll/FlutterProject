@@ -125,8 +125,13 @@ class _pageWish extends State<pageWish> {
     }
     if (vide) {
       return Scaffold(
-        backgroundColor: Color(0xff1E262B),
+        backgroundColor: Color(0xff1A2026),
         appBar: AppBar(
+          leading: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                Navigator.of(context).pop();
+              }),
           backgroundColor: Color(0xff1E262B),
           elevation: 0.0,
           title: Text(
@@ -168,8 +173,13 @@ class _pageWish extends State<pageWish> {
       );
     }
     return Scaffold(
-      backgroundColor: Color(0xff1E262B),
+      backgroundColor: Color(0xff1A2026),
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pop();
+            }),
         backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
         title: Text(

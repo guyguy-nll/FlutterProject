@@ -51,8 +51,13 @@ class _pageRecherche extends State<pageRecherche> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1E262B),
+      backgroundColor: Color(0xff1A2026),
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pop();
+            }),
         backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
         title: Text(
@@ -70,14 +75,17 @@ class _pageRecherche extends State<pageRecherche> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(12.0),
             child: TextField(
               onChanged: (recherche) {
                 _rechercherJeux(recherche);
               },
+              style: TextStyle(
+                color: Colors.white,
+              ),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Color.fromARGB(255, 29, 28, 28),
+                fillColor: Color(0xff1F262C),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                   borderSide: BorderSide.none,
@@ -97,7 +105,7 @@ class _pageRecherche extends State<pageRecherche> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(12.0),
             child: Text(
               'Nombre de résultats : ${_jeux.length}',
               style: TextStyle(
@@ -110,7 +118,7 @@ class _pageRecherche extends State<pageRecherche> {
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(12.0),
               child: ListView.builder(
                 itemCount: _jeux.length,
                 itemBuilder: (BuildContext context, int index) {

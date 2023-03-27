@@ -194,7 +194,7 @@ class _pageAvis extends State<pageAvis> {
       );
     }
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff1A2026),
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0.0,
@@ -266,8 +266,12 @@ class _pageAvis extends State<pageAvis> {
                 child: Container(
                   width: double.infinity,
                   height: 40.23,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(3.52)),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3.52),
+                      border: Border.all(
+                        color: Color(0xFF636af6),
+                        width: 1,
+                      )),
                   child: Row(
                     children: [
                       Expanded(

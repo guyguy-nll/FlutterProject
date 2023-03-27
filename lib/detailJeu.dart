@@ -194,7 +194,7 @@ class _pageDetail extends State<pageDetail> {
       );
     }
     return Scaffold(
-      backgroundColor: Color(0xff1E262B),
+      backgroundColor: Color(0xff1A2026),
       appBar: AppBar(
         backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
@@ -262,12 +262,16 @@ class _pageDetail extends State<pageDetail> {
                 height: 50,
               ),
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(10.0),
                 child: Container(
                   width: double.infinity,
                   height: 40.23,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(3.52)),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3.52),
+                      border: Border.all(
+                        color: Color(0xFF636af6),
+                        width: 1,
+                      )),
                   child: Row(
                     children: [
                       Expanded(
@@ -304,7 +308,7 @@ class _pageDetail extends State<pageDetail> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(10.0),
                 child: Text(_description ?? "Aucune description disponible",
                     style: TextStyle(
                         color: Color(0xFFFFFFff),
@@ -321,7 +325,7 @@ class _pageDetail extends State<pageDetail> {
               child: Container(
                 width: 340,
                 height: 110,
-                color: Color.fromARGB(221, 34, 34, 34),
+                color: Color.fromARGB(200, 43, 50, 56),
                 child: Row(
                   children: [
                     SizedBox(

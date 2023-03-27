@@ -130,7 +130,7 @@ class _pageAccueil extends State<pageAccueil> {
       );
     }
     return Scaffold(
-      backgroundColor: Color(0xff1E262B),
+      backgroundColor: Color(0xff1A2026),
       appBar: AppBar(
         backgroundColor: Color(0xff1E262B),
         elevation: 0.0,
@@ -185,7 +185,7 @@ class _pageAccueil extends State<pageAccueil> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(10.0),
             child: TextField(
               onTap: () {
                 setState(() {
@@ -195,9 +195,12 @@ class _pageAccueil extends State<pageAccueil> {
                   );
                 });
               },
+              style: TextStyle(
+                color: Colors.white,
+              ),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Color.fromARGB(255, 29, 28, 28),
+                fillColor: Color(0xff1F262C),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                   borderSide: BorderSide.none,
@@ -291,7 +294,7 @@ class _pageAccueil extends State<pageAccueil> {
             height: 10.0,
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(10.0),
             child: Text(
               "Les meilleures ventes",
               style: TextStyle(
@@ -308,10 +311,13 @@ class _pageAccueil extends State<pageAccueil> {
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(10.0),
               child: ListView.builder(
                 itemCount: list_meilleuresVentes.length,
                 itemBuilder: (context, index) => Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.17),
+                  ),
                   child: Stack(
                     children: [
                       Positioned.fill(

@@ -37,7 +37,7 @@ class _ConnectPageState extends State<ConnectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1A2025),
+      backgroundColor: Color(0xff1A2026),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,7 +72,8 @@ class _ConnectPageState extends State<ConnectPage> {
               height: 15,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
               child: TextField(
                 controller: emailController,
                 style: TextStyle(color: Colors.white),
@@ -86,9 +87,9 @@ class _ConnectPageState extends State<ConnectPage> {
                 ),
               ),
             ),
-
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
               child: TextField(
                 controller: passwordController,
                 textAlign: TextAlign.center,
@@ -106,7 +107,8 @@ class _ConnectPageState extends State<ConnectPage> {
               height: 80.0,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
               child: Container(
                 width: double.infinity,
                 child: RawMaterialButton(
@@ -127,9 +129,9 @@ class _ConnectPageState extends State<ConnectPage> {
                 ),
               ),
             ),
-
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
               child: Container(
                 width: double.infinity,
                 child: OutlinedButton(

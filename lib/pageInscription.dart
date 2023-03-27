@@ -35,7 +35,7 @@ class _pageInscription extends State<pageInscription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1A2025),
+      backgroundColor: Color(0xff1A2026),
       body: charge
           ? Center(
               child: CircularProgressIndicator(),
