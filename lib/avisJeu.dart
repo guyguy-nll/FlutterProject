@@ -7,6 +7,7 @@ import 'package:projet/jeuModele.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'avisModele.dart';
 
 class pageAvis extends StatefulWidget {
   final int jeuId;
@@ -18,7 +19,7 @@ class pageAvis extends StatefulWidget {
 
 class _pageAvis extends State<pageAvis> {
   //late CollectionReference<Map<String, dynamic>> _userLikesRef;
-
+  List<AvisModel> listAvis = [];
   String _nom = '';
   String _description = '';
   String _image = '';
@@ -36,6 +37,7 @@ class _pageAvis extends State<pageAvis> {
   void initState() {
     super.initState();
     _isLoading = true;
+    chargerAvis();
     _fetchGameDetails();
     _checkCurrentUser();
     _checkIfLiked();
@@ -90,6 +92,44 @@ class _pageAvis extends State<pageAvis> {
         });
       }
     }
+  }
+
+  Future<void> chargerAvis() async {
+    final responseAvis = await http.get(Uri.parse(
+        'https://store.steampowered.com/appreviews/${widget.jeuId}?json=1&&num_per_page=10'));
+
+    if (responseAvis.statusCode == 200 && responseAvis.body.isNotEmpty) {
+      final json = jsonDecode(responseAvis.body);
+      final avisJson = json['reviews'] as List<dynamic>;
+      for (var i = 0; i < avisJson.length; i++) {
+        // print(avisJson[i]["review"]);
+
+        final maxChars = 6;
+
+/*final String descriptionAvis = avisJson[i]["review"];
+
+        final descriptionDimensionne = descriptionAvis.length <= maxChars
+            ? descriptionAvis
+            : '${descriptionAvis.substring(0, maxChars)}...';
+        print(descriptionAvis);
+        */
+        //final String noteAvis = avisJson[i]["weighted_vote_score"];
+        /*final AvisModel Avis = AvisModel(
+            avis_description: descriptionDimensionne,
+            //avis_etoile: noteAvis,
+            jeu_id: widget.jeuId);*/
+        setState(() {
+          //listAvis.add(Avis);
+        });
+      }
+
+      ;
+    } else {
+      print('Erreur: ${responseAvis.statusCode}.');
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   Future<void> _fetchGameDetails() async {
@@ -318,12 +358,39 @@ class _pageAvis extends State<pageAvis> {
               ),
               Padding(
                 padding: EdgeInsets.all(16.0),
-                child: Text(_description ?? "Aucune description disponible",
-                    style: TextStyle(
-                        color: Color(0xFFFFFFff),
-                        fontFamily: "ProximaNova-Regular",
-                        fontSize: 15.265845,
-                        fontWeight: FontWeight.w400)),
+                /*
+                child: ListView.builder(
+                  itemCount: listAvis.length,
+                  itemBuilder: (context, index) => Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.17),
+                    ),
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                            child: ColoredBox(
+                          color: Color(0xFF232C34),
+                        )),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(listAvis[index].avis_description!,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.265845,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "ProximaNova-Regular",
+                                )),
+                            SizedBox(
+                              height: 5.0,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                */
               ),
             ],
           ),
