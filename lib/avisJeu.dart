@@ -102,24 +102,16 @@ class _pageAvis extends State<pageAvis> {
       final json = jsonDecode(responseAvis.body);
       final avisJson = json['reviews'] as List<dynamic>;
       for (var i = 0; i < avisJson.length; i++) {
-        // print(avisJson[i]["review"]);
+        print(avisJson[i]["review"]);
 
-        final maxChars = 6;
-
-/*final String descriptionAvis = avisJson[i]["review"];
-
-        final descriptionDimensionne = descriptionAvis.length <= maxChars
-            ? descriptionAvis
-            : '${descriptionAvis.substring(0, maxChars)}...';
-        print(descriptionAvis);
-        */
-        //final String noteAvis = avisJson[i]["weighted_vote_score"];
-        /*final AvisModel Avis = AvisModel(
-            avis_description: descriptionDimensionne,
+        final String descriptionAvis = avisJson[i]["review"];
+        final String noteAvis = avisJson[i]["weighted_vote_score"];
+        final AvisModel Avis = AvisModel(
+            avis_description: descriptionAvis,
             //avis_etoile: noteAvis,
-            jeu_id: widget.jeuId);*/
+            jeu_id: widget.jeuId);
         setState(() {
-          //listAvis.add(Avis);
+          listAvis.add(Avis);
         });
       }
 
