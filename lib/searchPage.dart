@@ -177,6 +177,17 @@ class _pageRecherche extends State<pageRecherche> {
                                   color: Color(0xFF232C34),
                                 ),
                               ),
+                              Container(
+                                height: 102,
+                                width: double.infinity,
+                                child: Opacity(
+                                  opacity: 0.5,
+                                  child: Image.asset(
+                                    'assets/images/destinytransparent.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
                               Row(
                                 children: [
                                   SizedBox(

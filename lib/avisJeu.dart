@@ -364,7 +364,7 @@ class _pageAvis extends State<pageAvis> {
                     itemBuilder: (context, index) => Container(
                       height: 140,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3.52),
+                        borderRadius: BorderRadius.circular(17.52),
                       ),
                       child: Card(
                         child: Stack(
