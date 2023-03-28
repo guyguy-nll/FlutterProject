@@ -4,10 +4,11 @@ import 'package:flutter/foundation.dart';
 
 class AvisModel {
   String? avis_description;
-  //String? avis_etoile;
+  double? avis_etoile;
   int? jeu_id;
   AvisModel({
     this.avis_description,
+    this.avis_etoile,
     this.jeu_id,
   });
 }

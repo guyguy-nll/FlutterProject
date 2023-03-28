@@ -96,24 +96,26 @@ class _pageAvis extends State<pageAvis> {
 
   Future<void> chargerAvis() async {
     final responseAvis = await http.get(Uri.parse(
-        'https://store.steampowered.com/appreviews/${widget.jeuId}?json=1&&num_per_page=10'));
+        'https://store.steampowered.com/appreviews/${widget.jeuId}?json=1'));
 
     if (responseAvis.statusCode == 200 && responseAvis.body.isNotEmpty) {
       final json = jsonDecode(responseAvis.body);
-      final avisJson = json['reviews'] as List<dynamic>;
+      final List<dynamic> avisJson = json['reviews'];
       for (var i = 0; i < avisJson.length; i++) {
         final String avis = avisJson[i]["review"] ?? '';
         print(avis);
-        final maxChars = 30;
+        final maxChars = 130;
 
         final descriptionDimensionne = avis.length <= maxChars
             ? avis
             : '${avis.substring(0, maxChars)}...';
 
-        //final String noteAvis = avisJson[i]["weighted_vote_score"];
+        final double noteAvis =
+            double.parse(avisJson[i]["weighted_vote_score"]) ?? 0;
+        final double convertionAvis = noteAvis * 5;
         final AvisModel Avis = AvisModel(
             avis_description: descriptionDimensionne,
-            //avis_etoile: noteAvis,
+            avis_etoile: convertionAvis,
             jeu_id: widget.jeuId);
 
         setState(() {
@@ -359,43 +361,110 @@ class _pageAvis extends State<pageAvis> {
                   padding: EdgeInsets.all(10.0),
                   child: ListView.builder(
                     itemCount: listAvis.length,
-                    itemBuilder: (context, index) => SizedBox(
-                      height: 70,
+                    itemBuilder: (context, index) => Container(
+                      height: 140,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3.52),
+                      ),
                       child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.17),
-                        ),
                         child: Stack(
                           children: [
                             Positioned.fill(
                                 child: ColoredBox(
                               color: Color(0xFF232C34),
                             )),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 10.0,
-                                ),
-                                SizedBox(
-                                  width: 10.0,
-                                ),
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Text(listAvis[index].avis_description!,
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Center(
+                              child: Container(
+                                height: 108,
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 7.0,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('Nom utilisateur',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15.265845,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: "ProximaNova-Regular",
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            )),
+                                        SizedBox(
+                                          width: 100.0,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color:
+                                              (listAvis[index].avis_etoile! >=
+                                                      1)
+                                                  ? Colors.yellow
+                                                  : null,
+                                          size: 13,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color:
+                                              (listAvis[index].avis_etoile! >=
+                                                      2)
+                                                  ? Colors.yellow
+                                                  : null,
+                                          size: 13,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color:
+                                              (listAvis[index].avis_etoile! >=
+                                                      3)
+                                                  ? Colors.yellow
+                                                  : null,
+                                          size: 13,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color:
+                                              (listAvis[index].avis_etoile! >=
+                                                      4)
+                                                  ? Colors.yellow
+                                                  : null,
+                                          size: 13,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color:
+                                              (listAvis[index].avis_etoile! >=
+                                                      5)
+                                                  ? Colors.yellow
+                                                  : null,
+                                          size: 13,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 7,
+                                    ),
+                                    Container(
+                                      width: 281,
+                                      height: 72,
+                                      child: Text(
+                                          listAvis[index].avis_description!,
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 15.265845,
                                             fontWeight: FontWeight.w400,
                                             fontFamily: "ProximaNova-Regular",
                                           )),
-                                      SizedBox(
-                                        height: 5.0,
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
