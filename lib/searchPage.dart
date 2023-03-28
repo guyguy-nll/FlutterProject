@@ -7,7 +7,6 @@ import 'package:projet/jeuModele.dart';
 import 'package:projet/detailJeu.dart';
 import 'package:http/http.dart' as http;
 import 'package:projet/detailJeu.dart';
-
 import 'package:dio/dio.dart';
 
 class pageRecherche extends StatefulWidget {
@@ -42,7 +41,7 @@ class _pageRecherche extends State<pageRecherche> {
         'publisher': publisher,
       };
     } else {
-      throw Exception('Failed to fetch game details');
+      throw Exception('Impossible de charger le prix et l editeur avec l API detail');
     }
   }
 
