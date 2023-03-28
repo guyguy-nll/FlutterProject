@@ -51,7 +51,7 @@ class Acc extends StatelessWidget {
             if (snapshot.hasData) {
               return ConnectPage();
             } else {
-              return ConnectPage();
+              return pageAccueil();
             }
           }));
 }
