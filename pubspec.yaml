@@ -82,6 +82,8 @@ flutter:
     - assets/images/whishlist.svg
     - assets/images/empty_likes.svg
     - assets/images/empty_whishlist.svg
+    - assets/images/warning.svg
+    - assets/images/destinytransparent.png
 
   #   - images/a_dot_ham.jpeg
 
