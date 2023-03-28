@@ -182,7 +182,6 @@ class _pageAccueil extends State<pageAccueil> {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
@@ -230,15 +229,17 @@ class _pageAccueil extends State<pageAccueil> {
             child: Row(
               children: <Widget>[
                 SizedBox(
-                  height: 20.0,
+                  width: 20.0,
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
                       height: 20.0,
                     ),
                     Text(
-                      "Titan Fall 2\n Ultimate Edition",
+                      "Titan Fall 2 \nUltimate Edition",
+                      softWrap: true,
                       style: TextStyle(
                         color: Color(0xFFFFFFff),
                         fontFamily: "ProximaNova-Bold",
@@ -247,7 +248,8 @@ class _pageAccueil extends State<pageAccueil> {
                       ),
                     ),
                     Text(
-                      "   Une description d’un jeu mis en avant\n (peu être fait en dur)",
+                      "Une description d’un jeu \nmis en avant (peu être fait en dur)",
+                      softWrap: true,
                       style: TextStyle(
                         color: Color(0xFFFFFFff),
                         fontFamily: "ProximaNova-Regular",
@@ -328,12 +330,9 @@ class _pageAccueil extends State<pageAccueil> {
                       Container(
                         height: 102,
                         width: double.infinity,
-                        child: Opacity(
-                          opacity: 0.5,
-                          child: Image.asset(
-                            'assets/images/destinytransparent.png',
-                            fit: BoxFit.cover,
-                          ),
+                        child: Image.asset(
+                          'assets/images/Destinny2.png',
+                          fit: BoxFit.cover,
                         ),
                       ),
                       Row(

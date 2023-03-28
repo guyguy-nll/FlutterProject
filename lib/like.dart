@@ -234,12 +234,9 @@ class _pageLike extends State<pageLike> {
                       Container(
                         height: 102,
                         width: double.infinity,
-                        child: Opacity(
-                          opacity: 0.5,
-                          child: Image.asset(
-                            'assets/images/destinytransparent.png',
-                            fit: BoxFit.cover,
-                          ),
+                        child: Image.asset(
+                          'assets/images/Destinny2.png',
+                          fit: BoxFit.cover,
                         ),
                       ),
                       Row(

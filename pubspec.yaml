@@ -74,7 +74,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/backgroundtitan2.jpg
-    - assets/images/destinytransparent.png
     - assets/images/fondDetailjeu.jpg
     - assets/images/jeu.jpg
     - assets/images/like.svg
@@ -85,7 +84,7 @@ flutter:
     - assets/images/empty_whishlist.svg
     - assets/images/warning.svg
     - assets/images/back.svg
-    - assets/images/destinytransparent.png
+    - assets/images/Destinny2.png
     - assets/images/background.svg
 
   #   - images/a_dot_ham.jpeg

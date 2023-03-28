@@ -41,7 +41,8 @@ class _pageRecherche extends State<pageRecherche> {
         'publisher': publisher,
       };
     } else {
-      throw Exception('Impossible de charger le prix et l editeur avec l API detail');
+      throw Exception(
+          'Impossible de charger le prix et l editeur avec l API detail');
     }
   }
 
@@ -180,12 +181,9 @@ class _pageRecherche extends State<pageRecherche> {
                               Container(
                                 height: 102,
                                 width: double.infinity,
-                                child: Opacity(
-                                  opacity: 0.5,
-                                  child: Image.asset(
-                                    'assets/images/destinytransparent.png',
-                                    fit: BoxFit.cover,
-                                  ),
+                                child: Image.asset(
+                                  'assets/images/Destinny2.png',
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                               Row(

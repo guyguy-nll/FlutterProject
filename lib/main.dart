@@ -49,9 +49,9 @@ class Acc extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return ConnectPage();
-            } else {
               return pageAccueil();
+            } else {
+              return ConnectPage();
             }
           }));
 }
