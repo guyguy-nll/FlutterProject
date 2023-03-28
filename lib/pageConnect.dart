@@ -7,6 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:projet/pageAccueil.dart';
 import 'pageInscription.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,145 +39,153 @@ class _ConnectPageState extends State<ConnectPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff1A2026),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            SizedBox(
-              height: 100,
-            ),
-            Text(
-              "Bienvenue !",
-              style: TextStyle(
-                color: Color(0xFFFFFFff),
-                fontFamily: "GoogleSans-Bold",
-                fontSize: 30.53169,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Text(
-              "Veuillez vous connecter ou \n créer un nouveau compte \n pour utiliser l’application",
-              style: TextStyle(
-                color: Color(0xFFFFFFff),
-                fontFamily: "ProximaNova-Regular",
-                fontSize: 15.265845,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-              child: TextField(
-                controller: emailController,
-                style: TextStyle(color: Colors.white),
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  fillColor: Color(0xff1E262B),
-                  filled: true,
-                  hintText: "E-Mail",
-                  hintStyle: TextStyle(color: Colors.white),
+      body: Stack(
+        children: [
+          SvgPicture.asset(
+            'assets/images/background.svg',
+            fit: BoxFit.cover,
+            color: Colors.white.withOpacity(0.6),
+            colorBlendMode: BlendMode.srcATop,
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  height: 100,
                 ),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-              child: TextField(
-                controller: passwordController,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white),
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecoration(
-                  fillColor: Color(0xff1E262B),
-                  filled: true,
-                  hintText: "Mot de passe",
-                  hintStyle: TextStyle(color: Colors.white),
+                Text(
+                  "Bienvenue !",
+                  style: TextStyle(
+                    color: Color(0xFFFFFFff),
+                    fontFamily: "GoogleSans-Bold",
+                    fontSize: 30.53169,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(
-              height: 80.0,
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-              child: Container(
-                width: double.infinity,
-                child: RawMaterialButton(
-                  fillColor: Color(0xFF636af6),
-                  elevation: 0.0,
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(3.52)),
-                  onPressed: () {
-                    Connect();
-                  },
-                  child: Text("Se connecter",
-                      style: TextStyle(
-                          color: Color(0xFFFFFFff),
-                          fontFamily: "ProximaNova-Regular",
-                          fontSize: 15.239016,
-                          fontWeight: FontWeight.w400)),
+                SizedBox(
+                  height: 15,
                 ),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-              child: Container(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => pageInscription()),
-                    );
-                  },
-                  style: OutlinedButton.styleFrom(
+                Text(
+                  "Veuillez vous connecter ou \n créer un nouveau compte \n pour utiliser l’application",
+                  style: TextStyle(
+                    color: Color(0xFFFFFFff),
+                    fontFamily: "ProximaNova-Regular",
+                    fontSize: 15.265845,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                  child: TextField(
+                    controller: emailController,
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      fillColor: Color(0xff1E262B),
+                      filled: true,
+                      hintText: "E-Mail",
+                      hintStyle: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                  child: TextField(
+                    controller: passwordController,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white),
+                    keyboardType: TextInputType.visiblePassword,
+                    decoration: InputDecoration(
+                      fillColor: Color(0xff1E262B),
+                      filled: true,
+                      hintText: "Mot de passe",
+                      hintStyle: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 80.0,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                  child: Container(
+                    width: double.infinity,
+                    child: RawMaterialButton(
+                      fillColor: Color(0xFF636af6),
                       elevation: 0.0,
                       padding: EdgeInsets.symmetric(vertical: 20.0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3.52)),
-                      side: BorderSide(color: Color(0xFF636af6)),
-                      backgroundColor: Color(0xff1A2025)),
-                  child: Text("Créer un nouveau compte",
+                      onPressed: () {
+                        Connect();
+                      },
+                      child: Text("Se connecter",
+                          style: TextStyle(
+                              color: Color(0xFFFFFFff),
+                              fontFamily: "ProximaNova-Regular",
+                              fontSize: 15.239016,
+                              fontWeight: FontWeight.w400)),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                  child: Container(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => pageInscription()),
+                        );
+                      },
+                      style: OutlinedButton.styleFrom(
+                          elevation: 0.0,
+                          padding: EdgeInsets.symmetric(vertical: 20.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(3.52)),
+                          side: BorderSide(color: Color(0xFF636af6)),
+                          backgroundColor: Color(0xff1A2025)),
+                      child: Text("Créer un nouveau compte",
+                          style: TextStyle(
+                              color: Color(0xFFFFFFff),
+                              fontFamily: "ProximaNova-Regular",
+                              fontSize: 15.239016,
+                              fontWeight: FontWeight.w400)),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      "Mot de passe oublié",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Color(0xFFFFFFff),
-                          fontFamily: "ProximaNova-Regular",
-                          fontSize: 15.239016,
-                          fontWeight: FontWeight.w400)),
+                        color: Color(0xAFA9A9A9),
+                        fontFamily: "ProximaNova-Regular",
+                        fontSize: 15.239016,
+                        fontWeight: FontWeight.w400,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-            SizedBox(
-              height: 180.0,
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Text(
-                "Mot de passe oublié",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xAFA9A9A9),
-                  fontFamily: "ProximaNova-Regular",
-                  fontSize: 15.239016,
-                  fontWeight: FontWeight.w400,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

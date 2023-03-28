@@ -15,6 +15,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/pageAccueil.dart';
 import 'package:projet/searchPage.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class pageInscription extends StatefulWidget {
   const pageInscription({super.key});
@@ -40,147 +41,157 @@ class _pageInscription extends State<pageInscription> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Inscription",
-                    style: TextStyle(
-                      color: Color(0xFFFFFFff),
-                      fontFamily: "GoogleSans-Bold",
-                      fontSize: 30.53169,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+          : Stack(
+              children: [
+                SvgPicture.asset(
+                  'assets/images/background.svg',
+                  fit: BoxFit.cover,
+                  color: Colors.white.withOpacity(0.6),
+                  colorBlendMode: BlendMode.srcATop,
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Veuillez saisir ces différentes informations, \nafin que vos listes soient sauvegardées.",
-                    style: TextStyle(
-                      color: Color(0xFFFFFFff),
-                      fontFamily: "ProximaNova-Regular",
-                      fontSize: 15.265845,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                SizedBox(
-                  height: 70,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-                  child: TextFormField(
-                    controller: nomControl,
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      fillColor: Color(0xff1E262B),
-                      filled: true,
-                      hintText: "Nom d’utilisateur",
-                      hintStyle: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-                  child: TextFormField(
-                    controller: mailControl,
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      fillColor: Color(0xff1E262B),
-                      filled: true,
-                      hintText: "E-mail",
-                      hintStyle: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-                  child: Container(
-                    decoration: testmdp
-                        ? BoxDecoration(
-                            border: Border.all(
-                              width: 1.0,
-                              color: Colors.red,
-                            ),
-                          )
-                        : null,
-                    child: Stack(
-                      alignment: Alignment.centerRight,
-                      children: [
-                        TextFormField(
-                          controller: mdpControl,
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.visiblePassword,
-                          decoration: InputDecoration(
-                            fillColor: Color(0xff1E262B),
-                            filled: true,
-                            hintText: "Mot de passe",
-                            hintStyle: TextStyle(color: Colors.white),
-                          ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Inscription",
+                        style: TextStyle(
+                          color: Color(0xFFFFFFff),
+                          fontFamily: "GoogleSans-Bold",
+                          fontSize: 30.53169,
+                          fontWeight: FontWeight.w400,
                         ),
-                        if (testmdp) Icon(Icons.warning, color: Colors.red),
-                      ],
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-                  child: TextFormField(
-                    controller: mdpverifControl,
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: InputDecoration(
-                      fillColor: Color(0xff1E262B),
-                      filled: true,
-                      hintText: "Vérification de mot de passe",
-                      hintStyle: TextStyle(color: Colors.white),
+                    SizedBox(
+                      height: 15,
                     ),
-                  ),
-                ),
-                SizedBox(
-                  height: 70,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-                  child: Container(
-                    width: double.infinity,
-                    child: RawMaterialButton(
-                      fillColor: Color(0xFF636af6),
-                      elevation: 0.0,
-                      padding: EdgeInsets.symmetric(vertical: 20.0),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(3.52)),
-                      onPressed: () {
-                        Inscript();
-                      },
-                      child: Text("S'inscrire",
-                          style: TextStyle(
-                              color: Color(0xFFFFFFff),
-                              fontFamily: "ProximaNova-Regular",
-                              fontSize: 17.61,
-                              fontWeight: FontWeight.w400)),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Veuillez saisir ces différentes informations, \nafin que vos listes soient sauvegardées.",
+                        style: TextStyle(
+                          color: Color(0xFFFFFFff),
+                          fontFamily: "ProximaNova-Regular",
+                          fontSize: 15.265845,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 20),
+                      child: TextFormField(
+                        controller: nomControl,
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          fillColor: Color(0xff1E262B),
+                          filled: true,
+                          hintText: "Nom d’utilisateur",
+                          hintStyle: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 20),
+                      child: TextFormField(
+                        controller: mailControl,
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          fillColor: Color(0xff1E262B),
+                          filled: true,
+                          hintText: "E-mail",
+                          hintStyle: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 20),
+                      child: Container(
+                        decoration: testmdp
+                            ? BoxDecoration(
+                                border: Border.all(
+                                  width: 1.0,
+                                  color: Colors.red,
+                                ),
+                              )
+                            : null,
+                        child: Stack(
+                          alignment: Alignment.centerRight,
+                          children: [
+                            TextFormField(
+                              controller: mdpControl,
+                              style: TextStyle(color: Colors.white),
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.visiblePassword,
+                              decoration: InputDecoration(
+                                fillColor: Color(0xff1E262B),
+                                filled: true,
+                                hintText: "Mot de passe",
+                                hintStyle: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            if (testmdp) Icon(Icons.warning, color: Colors.red),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 20),
+                      child: TextFormField(
+                        controller: mdpverifControl,
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.visiblePassword,
+                        decoration: InputDecoration(
+                          fillColor: Color(0xff1E262B),
+                          filled: true,
+                          hintText: "Vérification de mot de passe",
+                          hintStyle: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 70,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 20),
+                      child: Container(
+                        width: double.infinity,
+                        child: RawMaterialButton(
+                          fillColor: Color(0xFF636af6),
+                          elevation: 0.0,
+                          padding: EdgeInsets.symmetric(vertical: 20.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(3.52)),
+                          onPressed: () {
+                            Inscript();
+                          },
+                          child: Text("S'inscrire",
+                              style: TextStyle(
+                                  color: Color(0xFFFFFFff),
+                                  fontFamily: "ProximaNova-Regular",
+                                  fontSize: 17.61,
+                                  fontWeight: FontWeight.w400)),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
