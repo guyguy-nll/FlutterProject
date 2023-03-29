@@ -16,16 +16,20 @@ class pageRecherche extends StatefulWidget {
 }
 
 class _pageRecherche extends State<pageRecherche> {
+  // Variables d'état pour la recherche et la récupération de données
   bool _enCoursDeRecherche = false;
   bool _isLoading = false;
   List<Map<String, dynamic>> _jeux = [];
 
   final String _apiKey = '543CB15FFA49C7D4EAF4E917BBCC12B9';
 
+// Méthode pour récupérer les détails d'un jeu à partir de son ID
+
   Future<Map<String, dynamic>> fetchGameDetails(String appId) async {
     final url =
         'https://store.steampowered.com/api/appdetails/?appids=$appId&key=$_apiKey&json=1';
     final response = await Dio().get(url);
+// Vérification que la réponse est un succès
 
     if (response.statusCode == 200) {
       final data = response.data[appId]['data'];
@@ -36,6 +40,8 @@ class _pageRecherche extends State<pageRecherche> {
           data['publishers'] != null && data['publishers'].isNotEmpty
               ? data['publishers'][0]
               : '0 €';
+      // Retourne les détails du jeu
+
       return {
         'price': price,
         'publisher': publisher,
@@ -47,16 +53,21 @@ class _pageRecherche extends State<pageRecherche> {
   }
 
   Future<void> _rechercherJeux(String recherche) async {
+    // Modification des variables d'état pour indiquer que la recherche est en cours
+
     setState(() {
       _enCoursDeRecherche = true;
       _isLoading = true;
     });
+// Encodage du nom du jeu pour l'utiliser dans l'URL de recherche
 
     final nomDuJeu = Uri.encodeComponent(recherche);
     final url = 'https://steamcommunity.com/actions/SearchApps/$nomDuJeu';
     final response = await http.get(Uri.parse(url));
 
     List<Map<String, dynamic>> jeux = [];
+    // Vérification que la réponse est un succès
+
     if (response.statusCode == 200 && response.body.isNotEmpty) {
       final data = jsonDecode(response.body) as List<dynamic>;
       final rawJeux = data as List<dynamic>;
@@ -66,6 +77,7 @@ class _pageRecherche extends State<pageRecherche> {
         final icon =
             jeu['img_logo_url'] != null ? jeu['img_logo_url'] as String : null;
         final details = await fetchGameDetails(appId.toString());
+        // Retourne les détails du jeu
         jeux.add({
           'appid': appId,
           'name': name,
@@ -75,6 +87,7 @@ class _pageRecherche extends State<pageRecherche> {
         });
       }
     }
+    // Modification des variables d'état pour indiquer que la recherche est finie
 
     setState(() {
       _enCoursDeRecherche = false;
@@ -82,7 +95,7 @@ class _pageRecherche extends State<pageRecherche> {
       _isLoading = false;
     });
   }
-
+//Affichage de la page de recherche
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,6 +166,7 @@ class _pageRecherche extends State<pageRecherche> {
               ),
             ),
           ),
+          //Barre de chargement
           _isLoading
               ? Center(
                   child: CircularProgressIndicator(),
@@ -162,6 +176,7 @@ class _pageRecherche extends State<pageRecherche> {
                     padding: EdgeInsets.all(12.0),
                     child: ListView.builder(
                       itemCount: _jeux.length,
+                      //on utilise la méthode itemBuilder pour créer les éléments de la liste
                       itemBuilder: (BuildContext context, int index) {
                         final nomJeu = _jeux[index]['name'] as String;
                         final idJeu = _jeux[index]['appid'].toString();

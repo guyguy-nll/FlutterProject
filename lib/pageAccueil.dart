@@ -16,6 +16,7 @@ class pageAccueil extends StatefulWidget {
   State<pageAccueil> createState() => _pageAccueil();
 }
 
+//methode pour charger les jeux
 class _pageAccueil extends State<pageAccueil> {
   //initialisation d'une liste
   //a automatiser avec l'API Steam
@@ -28,9 +29,11 @@ class _pageAccueil extends State<pageAccueil> {
 
   Future<void> getJeux() async {
     print('Lecture API');
+    //liste des ids des jeux
     List<String> appIds = await loadGames();
 
     //final String apiKey = '543CB15FFA49C7D4EAF4E917BBCC12B9';
+// Méthode pour récupérer les détails d'un jeu à partir de son ID
 
     for (var i = 0; i < appIds.length; i++) {
       final String url =
@@ -41,6 +44,7 @@ class _pageAccueil extends State<pageAccueil> {
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
       });
+// Vérification que la réponse est un succès
 
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
@@ -68,19 +72,22 @@ class _pageAccueil extends State<pageAccueil> {
           list_meilleuresVentes.add(jeu);
         });
       } else {
-        print('Erreur: ${response.statusCode}.');
+          // Si la réponse n'est pas un succès, une exception est levée
+
+        print('Erreur impossible de recupeéré le jeu avec l id: ${response.statusCode}.');
       }
       setState(() {
         _isLoading = false;
       });
     }
   }
-
+//Methodes pour charger les jeux les plus joués
   Future<List<String>> loadGames() async {
     final response = await http.get(
       Uri.parse(
           'https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/?'),
     );
+// Vérification que la réponse est un succès
 
     if (response.statusCode == 200) {
       try {
@@ -98,7 +105,9 @@ class _pageAccueil extends State<pageAccueil> {
       }
     } else {
       throw Exception(
-          'Failed to load most played games: ${response.statusCode}');
+          // Si la réponse n'est pas un succès, une exception est levée
+
+          'Imossible de charger les jeux les plus joué : ${response.statusCode}');
     }
   }
 
@@ -182,6 +191,7 @@ class _pageAccueil extends State<pageAccueil> {
         ],
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
@@ -229,17 +239,15 @@ class _pageAccueil extends State<pageAccueil> {
             child: Row(
               children: <Widget>[
                 SizedBox(
-                  width: 20.0,
+                  height: 20.0,
                 ),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
                       height: 20.0,
                     ),
                     Text(
-                      "Titan Fall 2 \nUltimate Edition",
-                      softWrap: true,
+                      "Titan Fall 2\n Ultimate Edition",
                       style: TextStyle(
                         color: Color(0xFFFFFFff),
                         fontFamily: "ProximaNova-Bold",
@@ -248,8 +256,7 @@ class _pageAccueil extends State<pageAccueil> {
                       ),
                     ),
                     Text(
-                      "Une description d’un jeu \nmis en avant (peu être fait en dur)",
-                      softWrap: true,
+                      "   Une description d’un jeu mis en avant\n (peu être fait en dur)",
                       style: TextStyle(
                         color: Color(0xFFFFFFff),
                         fontFamily: "ProximaNova-Regular",
@@ -327,14 +334,6 @@ class _pageAccueil extends State<pageAccueil> {
                           child: ColoredBox(
                         color: Color(0xFF232C34),
                       )),
-                      Container(
-                        height: 102,
-                        width: double.infinity,
-                        child: Image.asset(
-                          'assets/images/Destinny2.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
                       Row(
                         children: [
                           SizedBox(

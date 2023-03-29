@@ -9,6 +9,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 
+//meme code que la page like mais avec les jeux wishlistés
+
 class pageWish extends StatefulWidget {
   const pageWish({Key? key}) : super(key: key);
   @override
@@ -42,8 +44,7 @@ class _pageWish extends State<pageWish> {
     wishlist.forEach((key, value) {
       likedGames.add(key);
     });
-
-    //final List<String> appIds = ['570', '730', '1091500', '570940', '583950'];
+//on récupère la liste des jeux whislistés
     final List<String> appIds = likedGames;
     appIds.forEach((element) {
       print(element);

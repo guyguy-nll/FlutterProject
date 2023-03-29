@@ -38,16 +38,15 @@ class _pageLike extends State<pageLike> {
         .get();
     final Map<String, dynamic> likes = userData.data()!['likes'] ?? {};
     List<String> likedGames = [];
-
+//On ajoute les jeux likés dans une liste
     likes.forEach((key, value) {
       likedGames.add(key);
     });
 
-    //final List<String> appIds = ['570', '730', '1091500', '570940', '583950'];
     final List<String> appIds = likedGames;
     appIds.forEach((element) {
       print(element);
-    });
+    });//on recupere les details des jeux likés
     if (!appIds.isEmpty) {
       for (var i = 0; i < appIds.length; i++) {
         final String url =
@@ -58,6 +57,7 @@ class _pageLike extends State<pageLike> {
           'Content-Type': 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
         });
+        // Vérification que la réponse est un succès
 
         if (response.statusCode == 200) {
           final jsonResponse = json.decode(response.body);
