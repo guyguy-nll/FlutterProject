@@ -9,22 +9,6 @@ import 'pageInscription.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ConnectPage(),
-    );
-  }
-}
-
 class ConnectPage extends StatefulWidget {
   const ConnectPage({super.key});
 
@@ -33,6 +17,7 @@ class ConnectPage extends StatefulWidget {
 }
 
 class _ConnectPageState extends State<ConnectPage> {
+  //controller pour récuperer les saisie de mot de passe et email
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   @override
@@ -41,12 +26,15 @@ class _ConnectPageState extends State<ConnectPage> {
       backgroundColor: Color(0xff1A2026),
       body: Stack(
         children: [
-          SvgPicture.asset(
-            'assets/images/background.svg',
-            fit: BoxFit.cover,
-            color: Colors.white.withOpacity(0.6),
-            colorBlendMode: BlendMode.srcATop,
+          //image de fond d'écran
+          Opacity(
+            opacity: 0.8,
+            child: SvgPicture.asset(
+              'assets/images/background.svg',
+              fit: BoxFit.cover,
+            ),
           ),
+
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -83,6 +71,7 @@ class _ConnectPageState extends State<ConnectPage> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
                   child: TextField(
+                    //la saisie est enregistrée dabs le controller d'email
                     controller: emailController,
                     style: TextStyle(color: Colors.white),
                     textAlign: TextAlign.center,
@@ -99,6 +88,7 @@ class _ConnectPageState extends State<ConnectPage> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
                   child: TextField(
+                    //la saisie est enregistrée dabs le controller de mot de passe
                     controller: passwordController,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
@@ -126,6 +116,7 @@ class _ConnectPageState extends State<ConnectPage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3.52)),
                       onPressed: () {
+                        //le bouton active la fonction Connect si on appuie dessus
                         Connect();
                       },
                       child: Text("Se connecter",
@@ -190,9 +181,11 @@ class _ConnectPageState extends State<ConnectPage> {
     );
   }
 
+  //fonction pour tester si l'email et le mot de passe sont enregistrées dans firebase
   Future Connect() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
+          //si firebase reconnait l'email et le mot de passe saisie on est renvoyé vers l'accueil
           email: emailController.text.trim(),
           password: passwordController.text.trim());
       Navigator.push(

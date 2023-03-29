@@ -46,8 +46,11 @@ class Acc extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
       body: StreamBuilder<User?>(
+          //voir le statut d'authenfication firebase
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
+            //si connecté on l'envoie vers l'accueil
+            //sinon sur la page de connection
             if (snapshot.hasData) {
               return pageAccueil();
             } else {

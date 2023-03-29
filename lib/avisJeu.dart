@@ -18,7 +18,6 @@ class pageAvis extends StatefulWidget {
 }
 
 class _pageAvis extends State<pageAvis> {
-  //late CollectionReference<Map<String, dynamic>> _userLikesRef;
   List<AvisModel> listAvis = [];
   String _nom = '';
   String _description = '';
@@ -44,6 +43,7 @@ class _pageAvis extends State<pageAvis> {
     _checkIfWished();
   }
 
+  //cette partie vient de detailJeu.dart a été commenté sur cette page
   void _checkCurrentUser() {
     final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
@@ -58,6 +58,7 @@ class _pageAvis extends State<pageAvis> {
     }
   }
 
+  //cette partie vient de detailJeu.dart a été commenté sur cette page
   void _checkIfLiked() async {
     final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
@@ -76,6 +77,7 @@ class _pageAvis extends State<pageAvis> {
     }
   }
 
+  //cette partie vient de detailJeu.dart a été commenté sur cette page
   void _checkIfWished() async {
     final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
@@ -94,37 +96,48 @@ class _pageAvis extends State<pageAvis> {
     }
   }
 
+  //permet de charger les avis d'un jeu grace à l'api
   Future<void> chargerAvis() async {
+    //on recupere les données avis du jeu
     final responseAvis = await http.get(Uri.parse(
         'https://store.steampowered.com/appreviews/${widget.jeuId}?json=1'));
-
+    //si on a un retour de l'api on met les données des avis dans des variables
     if (responseAvis.statusCode == 200 && responseAvis.body.isNotEmpty) {
+      //on decode les données json
       final json = jsonDecode(responseAvis.body);
+      //on cree une liste avec les données des avis
       final List<dynamic> avisJson = json['reviews'];
+      //on parcout tous nos avis
       for (var i = 0; i < avisJson.length; i++) {
+        //avis prend le commentaire de chaque avis ou un String vide si rien
         final String avis = avisJson[i]["review"] ?? '';
-        print(avis);
+        //print(avis);
+        //on choisit un maximum de caractère pour les commentaires au dessus de 130 char ce sera des "..."
         final maxChars = 130;
-
+        // si le commentaire depasse 130 char le reste est remplacer en ...
         final descriptionDimensionne = avis.length <= maxChars
             ? avis
             : '${avis.substring(0, maxChars)}...';
-
+        //noteAvis prend l'avis laissé pour chaque commentaire ou 0 si vide
         final double noteAvis =
             double.parse(avisJson[i]["weighted_vote_score"]) ?? 0;
+        //on multiplie les avis par 5 pour avoir une note sur 5
         final double convertionAvis = noteAvis * 5;
+        //Avis prend donc les informations recupérées
         final AvisModel Avis = AvisModel(
             avis_description: descriptionDimensionne,
             avis_etoile: convertionAvis,
             jeu_id: widget.jeuId);
 
         setState(() {
+          //on ajoute l'avis à notre liste de commentaire
           listAvis.add(Avis);
         });
       }
 
       ;
     } else {
+      //sinon on affiche les erreurs
       print('Erreur: ${responseAvis.statusCode}.');
     }
     setState(() {
@@ -132,6 +145,7 @@ class _pageAvis extends State<pageAvis> {
     });
   }
 
+  //cette partie vient de detailJeu.dart a été commenté sur cette page
   Future<void> _fetchGameDetails() async {
     final url =
         'https://store.steampowered.com/api/appdetails?appids=${widget.jeuId}&key=543CB15FFA49C7D4EAF4E917BBCC12B9';
@@ -159,6 +173,7 @@ class _pageAvis extends State<pageAvis> {
     }
   }
 
+  //cette partie vient de detailJeu.dart a été commenté sur cette page
   void _toggleLike() async {
     final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
@@ -193,6 +208,7 @@ class _pageAvis extends State<pageAvis> {
     }
   }
 
+//cette partie vient de detailJeu.dart a été commenté sur cette page
   void _toggleWish() async {
     final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
@@ -400,6 +416,7 @@ class _pageAvis extends State<pageAvis> {
                                         SizedBox(
                                           width: 100.0,
                                         ),
+                                        //on affiche le nombre d'étoile jaune selon la note laissé
                                         Icon(
                                           Icons.star,
                                           color:
@@ -454,6 +471,7 @@ class _pageAvis extends State<pageAvis> {
                                       width: 281,
                                       height: 72,
                                       child: Text(
+                                          //affichage du commentaire laissé
                                           listAvis[index].avis_description!,
                                           style: TextStyle(
                                             color: Colors.white,

@@ -72,15 +72,17 @@ class _pageAccueil extends State<pageAccueil> {
           list_meilleuresVentes.add(jeu);
         });
       } else {
-          // Si la réponse n'est pas un succès, une exception est levée
+        // Si la réponse n'est pas un succès, une exception est levée
 
-        print('Erreur impossible de recupeéré le jeu avec l id: ${response.statusCode}.');
+        print(
+            'Erreur impossible de recupeéré le jeu avec l id: ${response.statusCode}.');
       }
       setState(() {
         _isLoading = false;
       });
     }
   }
+
 //Methodes pour charger les jeux les plus joués
   Future<List<String>> loadGames() async {
     final response = await http.get(
@@ -191,7 +193,6 @@ class _pageAccueil extends State<pageAccueil> {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
@@ -239,15 +240,17 @@ class _pageAccueil extends State<pageAccueil> {
             child: Row(
               children: <Widget>[
                 SizedBox(
-                  height: 20.0,
+                  width: 20.0,
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
                       height: 20.0,
                     ),
                     Text(
-                      "Titan Fall 2\n Ultimate Edition",
+                      "Titan Fall 2\nUltimate Edition",
+                      softWrap: true,
                       style: TextStyle(
                         color: Color(0xFFFFFFff),
                         fontFamily: "ProximaNova-Bold",
@@ -256,7 +259,8 @@ class _pageAccueil extends State<pageAccueil> {
                       ),
                     ),
                     Text(
-                      "   Une description d’un jeu mis en avant\n (peu être fait en dur)",
+                      "Une description d’un jeu \nmis en avant (peu être fait en dur)",
+                      softWrap: true,
                       style: TextStyle(
                         color: Color(0xFFFFFFff),
                         fontFamily: "ProximaNova-Regular",
@@ -334,6 +338,14 @@ class _pageAccueil extends State<pageAccueil> {
                           child: ColoredBox(
                         color: Color(0xFF232C34),
                       )),
+                      Container(
+                        height: 102,
+                        width: double.infinity,
+                        child: Image.asset(
+                          'assets/images/Destinny2.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                       Row(
                         children: [
                           SizedBox(
@@ -352,6 +364,7 @@ class _pageAccueil extends State<pageAccueil> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                //affichage des titres de jeu des meilleurs ventes
                                 Text(list_meilleuresVentes[index].jeu_titre!,
                                     style: TextStyle(
                                       color: Colors.white,
@@ -359,6 +372,7 @@ class _pageAccueil extends State<pageAccueil> {
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "ProximaNova-Regular",
                                     )),
+                                //affichage des editeurs de jeu des meilleurs ventes
                                 Text(list_meilleuresVentes[index].jeu_editeur!,
                                     style: TextStyle(
                                       color: Colors.white,
@@ -381,6 +395,7 @@ class _pageAccueil extends State<pageAccueil> {
                                       ),
                                       children: [
                                         TextSpan(
+                                          //affichage des prix de jeu des meilleurs ventes
                                           text: " "
                                               '${list_meilleuresVentes[index].jeu_prix!}',
                                           style: TextStyle(
@@ -408,6 +423,7 @@ class _pageAccueil extends State<pageAccueil> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
+                                      //renvoie vers la page detail qui cherche le jeu en fonction de l'id
                                       builder: (context) => pageDetail(
                                           jeuId: list_meilleuresVentes[index]
                                               .jeu_id!)),

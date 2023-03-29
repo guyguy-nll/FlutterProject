@@ -25,7 +25,9 @@ class pageInscription extends StatefulWidget {
 }
 
 class _pageInscription extends State<pageInscription> {
+  //variable qui peut etre utile pour teste si on est connecte
   final FirebaseAuth Auth = FirebaseAuth.instance;
+  //variable pour la saisie utilisateur
   final TextEditingController nomControl = TextEditingController();
   final TextEditingController mailControl = TextEditingController();
   final TextEditingController mdpControl = TextEditingController();
@@ -43,11 +45,13 @@ class _pageInscription extends State<pageInscription> {
             )
           : Stack(
               children: [
-                SvgPicture.asset(
-                  'assets/images/background.svg',
-                  fit: BoxFit.cover,
-                  color: Colors.white.withOpacity(0.6),
-                  colorBlendMode: BlendMode.srcATop,
+                //affichage de l'image de fond
+                Opacity(
+                  opacity: 0.8,
+                  child: SvgPicture.asset(
+                    'assets/images/background.svg',
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -89,6 +93,7 @@ class _pageInscription extends State<pageInscription> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 20),
                       child: TextFormField(
+                        //enregistre la saisie du nom dans le controller
                         controller: nomControl,
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
@@ -105,6 +110,7 @@ class _pageInscription extends State<pageInscription> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 20),
                       child: TextFormField(
+                        //enregistre l'email saisie dans le controller
                         controller: mailControl,
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
@@ -120,6 +126,7 @@ class _pageInscription extends State<pageInscription> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 20),
+                      //entoure le container en rouge si les deux mots de passe sont differents
                       child: Container(
                         decoration: testmdp
                             ? BoxDecoration(
@@ -133,6 +140,7 @@ class _pageInscription extends State<pageInscription> {
                           alignment: Alignment.centerRight,
                           children: [
                             TextFormField(
+                              //enregistre le mot de passe dans le controller
                               controller: mdpControl,
                               style: TextStyle(color: Colors.white),
                               textAlign: TextAlign.center,
@@ -144,6 +152,8 @@ class _pageInscription extends State<pageInscription> {
                                 hintStyle: TextStyle(color: Colors.white),
                               ),
                             ),
+                            //affiche une icone de warning si les deux mot de passe sont differents
+                            // on a choisit cette icone qui rendait mieux que le svg
                             if (testmdp) Icon(Icons.warning, color: Colors.red),
                           ],
                         ),
@@ -153,6 +163,7 @@ class _pageInscription extends State<pageInscription> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 20),
                       child: TextFormField(
+                        //enregistre le mot de passe de verification dans le controller
                         controller: mdpverifControl,
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
@@ -180,6 +191,7 @@ class _pageInscription extends State<pageInscription> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(3.52)),
                           onPressed: () {
+                            //on procede à l'inscription dans firebase
                             Inscript();
                           },
                           child: Text("S'inscrire",
@@ -200,8 +212,10 @@ class _pageInscription extends State<pageInscription> {
 
   Future<void> Inscript() async {
     setState(() {
+      //charge est le boolean du loader
       charge = true;
     });
+    //on teste si les deux mots de passe sont identiques
     if (mdpControl.text.trim() != mdpverifControl.text.trim()) {
       setState(() {
         testmdp = true;
@@ -209,6 +223,7 @@ class _pageInscription extends State<pageInscription> {
       });
       return;
     }
+    //si different l'email et le mot de passe sont entrées dans firebase comme nouvel utilisateur
     try {
       UserCredential result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -221,11 +236,13 @@ class _pageInscription extends State<pageInscription> {
         'likes': <String, String>{},
         'wishlist': <String, String>{},
       });
+      //on le renvoie vers la page d'accueil
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => pageAccueil()),
       );
-    } catch (e) {
+    } //on affiche les erreurs sinon
+    catch (e) {
       print(e);
     }
     setState(() {
